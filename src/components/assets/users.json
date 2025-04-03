@@ -1,0 +1,10 @@
+
+[
+    {
+        "id":0,
+        "name": "Try Sample",
+        "balance": 4000,
+        "age": 25,
+        "email": "trysample@email.com"
+    }
+]

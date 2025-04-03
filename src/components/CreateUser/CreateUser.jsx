@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './CreateUser.css';
+import bankUsers from '../assets/users.json'
 
 function CreateUser() {
     const [inputData, setInputData] = useState({
@@ -53,8 +54,9 @@ function CreateUser() {
             dateCreated: new Date().toISOString(),
         };
         console.log(users);
-
+        bankUsers.push(newUser);
         users.push(newUser);
+        console.log(bankUsers);
     }
     const handleChange = (e) => {
         const {name, value} = e.target;

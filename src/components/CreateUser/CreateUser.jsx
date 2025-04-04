@@ -43,7 +43,18 @@ function CreateUser() {
         if (balance < 0) {
             setError('Initial cannot be less than zero');
             return;
-        }   
+        }
+        const now = new Date();
+        const month = now.getMonth();
+        const day = now.getDate();
+        const year = now.getFullYear();
+        const hour = now.getHours();
+        const minute = now.getMinutes();
+        const seconds = now.getSeconds();
+        const miliseconds = now.getMilliseconds();
+
+        const dateCreated = `${year}${month}${day}${hour}${minute}${seconds}${miliseconds}`;
+        // user.transactions[i]
         const users =[];
         const newUser = {
             name,
@@ -51,8 +62,12 @@ function CreateUser() {
             email,
             age,
             transactions: [],
-            dateCreated: new Date().toISOString(),
+            dateCreated,
         };
+
+        // const newTransaction = {
+        // name, 
+        //}
         console.log(users);
         bankUsers.push(newUser);
         users.push(newUser);
@@ -75,7 +90,8 @@ function CreateUser() {
                         type="text" 
                         name="name" 
                         onChange={handleChange} 
-                        value={inputData.name} 
+                        value={inputData.name}
+                        placeholder='Enter Your Name' 
                     />
                 </div>
                 <div>

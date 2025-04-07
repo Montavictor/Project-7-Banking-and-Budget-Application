@@ -21,7 +21,7 @@ function CreateUser() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { name, address, age, initialBalance, email } = inputData;
-    const numAge = parseFloat(age.trim());
+    const numAge = Number(age.trim());
     const balance = Number(initialBalance) || 0;
     const users = bankUsers || [];
 
@@ -59,7 +59,7 @@ function CreateUser() {
       );
       return;
     } else if (
-      users.find((user) => user.name.toLocaleLowerCase() === name.toLowerCase())
+      users.find((user) => user.name.toLowerCase() === name.toLowerCase())
     ) {
       setError(
         "Error: User's Name Already Exists. Is He/She a different person?"
@@ -74,17 +74,7 @@ function CreateUser() {
   function createNewUser(users) {
     setShowConfirmation(false);
 
-    // creating an ID based on year/month/day/hour/minute/second/miliseconds
-    const now = new Date();
-    const month = now.getMonth();
-    const day = now.getDate();
-    const year = now.getFullYear();
-    const hour = now.getHours();
-    const minute = now.getMinutes();
-    const seconds = now.getSeconds();
-    const miliseconds = now.getMilliseconds();
-
-    const dateCreated = `${year}${month}${day}${hour}${minute}${seconds}${miliseconds}`;
+    const dateCreated = Date.now();
 
     const { name, address, initialBalance, email, age } = inputData;
     const balance = Number(initialBalance) || 0;
@@ -95,6 +85,7 @@ function CreateUser() {
       email,
       age,
       dateCreated,
+      transactions: [],
     };
 
     bankUsers.push(newUser);
@@ -190,18 +181,23 @@ function CreateUser() {
         </div>
         <input type="submit" onClick={handleSubmit} className="submitBtn" />
       </form>
-      {!!error && <p className="error">{error}</p>}
-      {showSuccess && <p className="success">{showSuccess}</p>}
-      {showConfirmation && (
-        <div className="confirmation">
-          <button className="button" onClick={createNewUser}>
-            Yes
-          </button>
-          <button className="button" onClick={() => setShowConfirmation(false)}>
-            No
-          </button>
-        </div>
-      )}
+      <div>
+        {!!error && <p className="error">{error}</p>}
+        {showSuccess && <p className="success">{showSuccess}</p>}
+        {showConfirmation && (
+          <div className="confirmation">
+            <button className="button" onClick={createNewUser}>
+              Yes
+            </button>
+            <button
+              className="button"
+              onClick={() => setShowConfirmation(false)}
+            >
+              No
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

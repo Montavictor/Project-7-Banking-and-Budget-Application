@@ -1,7 +1,9 @@
 import logo from "./logo.svg";
 import "./App.css";
 import CreateUser from "./components/CreateUser/CreateUser";
-const transactions = [];
+// import sampleUsers from "./components/assets/SampleData.js";
+
+// sampleUsers();
 
 function App() {
   return (

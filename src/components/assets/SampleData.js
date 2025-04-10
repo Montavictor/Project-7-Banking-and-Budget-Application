@@ -1,5 +1,3 @@
-import bankUsers from "./users.json";
-
 export const sampleData = () => {
   const sampleUsers = [
     {
@@ -8,12 +6,14 @@ export const sampleData = () => {
       balance: 50000,
       email: "github.com/montavictor",
       age: 30,
-      dateCreated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7),
+      dateCreated: Date.now() - 1000 * 60 * 60 * 24 * 7,
       transactions: [
         {
           type: "deposit",
           amount: 50000,
-          transactionDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3),
+          transactionDate: new Date(
+            Date.now() - 1000 * 60 * 60 * 24 * 3
+          ).toISOString(),
         },
       ],
     },
@@ -23,21 +23,26 @@ export const sampleData = () => {
       balance: 150000,
       email: "http://github.com/fern-sa",
       age: 28,
-      dateCreated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 5),
+      dateCreated: Date.now() - 1000 * 60 * 60 * 24 * 5,
       transactions: [
         {
           type: "deposit",
           amount: 250000,
-          transactionDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 4),
+          transactionDate: new Date(
+            Date.now() - 1000 * 60 * 60 * 24 * 4
+          ).toISOString(),
         },
         {
           type: "withraw",
           amount: 2500,
-          transactionDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 1),
+          transactionDate: new Date(
+            Date.now() - 1000 * 60 * 60 * 24 * 1
+          ).toISOString(),
         },
       ],
     },
   ];
-  bankUsers.push(sampleUsers);
+                      //"transactions", JSON.stringify(transactions)
+  localStorage.setItem("bankUsers", JSON.stringify(sampleUsers));
   return sampleUsers;
 };

@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { Snackbar, Alert, Paper, Button, TextField } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
 import "./CreateUser.css";
-import bankUsers from "../assets/users.json";
 
 function CreateUser() {
   const [inputData, setInputData] = useState({
@@ -23,7 +24,7 @@ function CreateUser() {
     const { name, address, age, initialBalance, email } = inputData;
     const numAge = Number(age.trim());
     const balance = Number(initialBalance) || 0;
-    const users = bankUsers || [];
+    const users = JSON.parse(localStorage.getItem("bankUsers")) || [];
 
     // error handling
     if (!name || name.trim() === "") {
@@ -67,14 +68,16 @@ function CreateUser() {
       setShowConfirmation(true);
       return;
     } else {
-      createNewUser(users);
+      createNewUser();
     }
   };
+
   // creating a new user and pushing it to database
-  function createNewUser(users) {
+  function createNewUser() {
     setShowConfirmation(false);
 
     const dateCreated = Date.now();
+    const users = JSON.parse(localStorage.getItem("bankUsers")) || [];
 
     const { name, address, initialBalance, email, age } = inputData;
     const balance = Number(initialBalance) || 0;
@@ -88,9 +91,19 @@ function CreateUser() {
       transactions: [],
     };
 
-    bankUsers.push(newUser);
+    users.push(newUser);
+    localStorage.setItem("bankUsers", JSON.stringify(users));
+
+    setShowSuccess(true);
+    setInputData({
+      name: "",
+      address: "",
+      age: "",
+      initialBalance: "",
+      email: "",
+    });
     //debug checker
-    console.log(bankUsers);
+    console.log(localStorage.getItem("bankUsers"));
     console.log(users);
   }
 
@@ -198,6 +211,13 @@ function CreateUser() {
           </div>
         )}
       </div>
+      <Snackbar
+        open={showSuccess}
+        autoHideDuration={2000}
+        onClose={() => setShowSuccess(false)}
+      >
+        <Alert severity="success">User created successfully!</Alert>
+      </Snackbar>
     </div>
   );
 }

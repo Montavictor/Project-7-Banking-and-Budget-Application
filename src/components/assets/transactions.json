@@ -1,8 +1,0 @@
-[
-    {
-        "transactionDate": "date",
-        "name1": "to",
-        "name2": "from",
-        "TransactionType": "Deposit/Widthraw/Transfer"
-    }
-]

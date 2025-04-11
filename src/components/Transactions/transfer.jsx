@@ -1,9 +1,9 @@
 import { useState } from "react";
 import {
+  Alert,
   Autocomplete,
   Box,
   Button,
-  NumberField,
   Snackbar,
   TextField,
   ToggleButton,
@@ -11,120 +11,118 @@ import {
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
+const findUserByName = (users, name) => users.find((u) => u.name === name);
+const findUserById = (users, id) => users.find((u) => u.dateCreated === id);
+
 function Transfer() {
-  const bankUsers = JSON.parse(localStorage.getItem("bankUsers")) || [];
-  const [users, setUsers] = useState(bankUsers);
-  const [show, setShowUsers] = useState(true);
-  const [showSimilar, setShowSimilar] = useState(false);
-  const [showId, setShowId] = useState(false);
-  const [sender, setSender] = useState("");
+  const [users, setUsers] = useState(() => {
+    return JSON.parse(localStorage.getItem("bankUsers")) || [];
+  });
   const [toggleValue, setToggleValue] = useState("username");
-  const [senderId, setSenderId] = useState("");
-  const [receiverId, setReceiverId] = useState("");
-  const [receiver, setReceiver] = useState("");
-  const [amount, setAmount] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [transactionData, setTransactionData] = useState({
-    type: "",
+  const [form, setForm] = useState({
+    sender: null,
+    receiver: null,
     amount: "",
-    sender: "",
-    receiver: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    type: "success",
   });
 
-  //username checker
-  const userExist = (user) => {
-    if (!user || !user.name) {
-      setError("Name is Required.");
-      return false;
-    }
-    const found = users.find((u) => u.name === user.name);
-    if (!found) {
-      setError("Please Enter a Valid Name.");
-      return false;
-    }
-    setError("");
-    return true;
+  //input handler
+  const handleChange = (field) => (e, value) => {
+    const inputValue = value ?? e.target.value;
+    setForm((inputs) => ({ ...inputs, [field]: inputValue }));
+    setErrors((inputs) => ({ ...inputs, [field]: "" }));
   };
 
-  const findUser = (name) => {
-    let foundUser = users.filter((user) => user.name === name);
-    return foundUser[0];
+  //validation checker
+  const validate = () => {
+    const { sender, receiver, amount } = form;
+    let newErrors = {};
+    if (!sender) {
+      newErrors.sender = "Sender is required.";
+    }
+    if (!receiver) {
+      newErrors.receiver = "Receiver is required.";
+    }
+    if (sender && receiver && sender === receiver) {
+      newErrors.receiver = "Sender and Receiver cannot be the same.";
+    }
+    if (!amount) {
+      newErrors.amount = "Amount is required.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleUserSubmit = (e) => {
-    e.preventDefault();
+  // update balances
+
+  const updateBalances = () => {
+    const { sender, receiver, amount } = form;
     const newAmount = Number(amount);
-
-    if (!userExist(sender)) {
-      setError("Please select sender name");
-      return;
-    }
-
-    if (!userExist(receiver)) {
-      setError("Please select receiver name");
-      return;
-    }
-
-    if (sender.name === receiver.name) {
-      setError("Error: the Same Person");
-      return;
-    }
-
-    if (newAmount <= 0) {
-      setError("Amount cannot be negative.");
-      return;
-    }
+    const transactionDate = new Date().toISOString();
 
     const updateUsers = users.map((user) => {
-      if (user.name === sender.name) {
-        user.transactions.push({
-          type: "transfer",
-          amount: newAmount,
-          to: receiver.name,
-          transactionDate: new Date().toISOString(),
-        });
+      if (user === sender) {
         return {
           ...user,
           balance: user.balance - newAmount,
+          transactions: [
+            ...user.transactions,
+            {
+              type: "transfer",
+              amount: newAmount,
+              to: receiver.name || receiver.dateCreated,
+              transactionDate: transactionDate,
+            },
+          ],
         };
-      } else if (user.name === receiver.name) {
-        user.transactions.push({
-          type: "transfer",
-          amount: newAmount,
-          from: sender.name,
-          transactionDate: new Date().toISOString(),
-        });
+      }
+      if (user === receiver) {
         return {
           ...user,
           balance: user.balance + newAmount,
+          transactions: [
+            ...user.transactions,
+            {
+              type: "transfer",
+              amount: newAmount,
+              from: sender.name || sender.dateCreated,
+              transactionDate: transactionDate,
+            },
+          ],
         };
       }
       return user;
     });
-
     setUsers(updateUsers);
     localStorage.setItem("bankUsers", JSON.stringify(updateUsers));
-    setSender("");
-    setReceiver("");
-    setAmount("");
+    setForm({
+      sender: null,
+      receiver: null,
+      amount: "",
+    });
+    setSnackbar({
+      open: true,
+      message: "Transfer Successful!",
+      type: "success",
+    });
   };
 
-  const userIDExist = (id) => {
-    return users.find((user) => user.dateCreated === id);
-  };
-  const findId = (id) => {
-    let foundid = users.filter((user) => user.dateCreated === id);
-    return foundid[0];
-  };
-
-  const handleToggleChange = (event, toggle) => {
-    if (toggle !== null) {
-      setToggleValue(toggle);
-      setShowUsers(toggle === "username");
-      setShowId(toggle === "id");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      updateBalances();
     }
   };
+
+  const toggleMode = toggleValue === "username";
+  const options = users;
+
   return (
     <Box sx={{ maxWidth: 600, mx: "auto", mt: 4 }}>
       <h1>Transfer Money</h1>
@@ -133,134 +131,99 @@ function Transfer() {
         size="small"
         value={toggleValue}
         exclusive
-        onChange={handleToggleChange}
+        onChange={(e, mode) => {
+          if (mode) {
+            setToggleValue(mode);
+            setForm({
+              sender: null,
+              receiver: null,
+              amount: "",
+            });
+          }
+        }}
         color="primary"
-        aria-label="user id toggle"
       >
         <ToggleButton value="username" className="user-btn">
-          with username
+          With Username
         </ToggleButton>
         <ToggleButton value="id" className="user-id">
-          with account ID
+          with Account ID
         </ToggleButton>
       </ToggleButtonGroup>
 
-      {show && (
-        <div className="container-user">
-          <form onSubmit={handleUserSubmit}>
-            <Autocomplete
-              size="small"
-              options={bankUsers}
-              getOptionLabel={(user) => user.name || ""}
-              value={sender}
-              onChange={(e, value) => setSender(value)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Enter Sender Name"
-                  error={!!error.sender}
-                  helperText={error.sender}
-                  required
-                />
-              )}
-            />
-            <br />
-            <Autocomplete
-              size="small"
-              options={bankUsers}
-              getOptionLabel={(user) => user.name || ""}
-              value={receiver}
-              onChange={(e, value) => setReceiver(value)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Enter Receiver Name"
-                  error={!!error.receiver}
-                  helperText={error.receiver}
-                  required
-                />
-              )}
-            />
-            {/* <input
-              type="text"
-              name="receiver"
-              onChange={(e) => setReceiver(e.target.value)}
-              value={receiver}
-              placeholder="Enter Receiver Name"
-              required
-            /> */}
-            <br />
-
+      <Box component="form" mt={3} onSubmit={handleSubmit}>
+        <Autocomplete
+          size="small"
+          options={options}
+          getOptionLabel={(user) =>
+            (toggleMode ? user.name : String(user.dateCreated)) || ""
+          }
+          value={form.sender}
+          onChange={handleChange("sender")}
+          renderInput={(params) => (
             <TextField
-              type="number"
-              size="small"
-              label="Enter Amount"
-              onChange={(e) => setAmount(e.target.value)}
-              value={amount}
-              error={!!error && error.includes("amount")}
-              helperText={!!error && error.includes("amount") ? error : ""}
-              fullWidth
-            />
-            <br />
-            <Button
-              type="submit"
-              variant="contained"
-              size="medium"
-              endIcon={<SendIcon />}
-            >
-              Transfer
-            </Button>
-          </form>
-        </div>
-      )}
-      {showId && (
-        <div className="container-id">
-          {/* <Autocomplete
-            options={bankUsers}
-            getOptionLabel={(user)=>user.name}
-            value={bankUsers.find(user=> user.name === sender) || null}
-            onChange={}
-            >
-
-            </Autocomplete> */}
-          {/* <input
-              type="number"
-              name="senderId"
-              onChange={(e) => setSenderId(e.target.value)}
-              value={senderId}
-              placeholder="Enter Sender ID"
+              {...params}
+              label="Enter Sender"
+              error={!!errors.sender}
+              helperText={errors.sender}
               required
-            /> */}
-          <br />
+            />
+          )}
+        />
 
-          <input
-            type="text"
-            name="receiver"
-            onChange={(e) => setReceiverId(e.target.value)}
-            value={receiverId}
-            placeholder="Enter Receiver ID"
-            required
-          />
-          <br />
-          <input
-            type="number"
-            name="amount"
-            onChange={(e) => setAmount(e.target.value)}
-            value={amount}
-            placeholder="Enter Amount"
-            required
-          />
-          <br />
-          <Button
-            variant="contained"
-            size="small"
-            type="submit"
-            endIcon={<SendIcon />}
-          >
-            Transfer
-          </Button>
-        </div>
-      )}
+        <Autocomplete
+          // sx={{ width: 300 }}
+          size="small"
+          options={options}
+          getOptionLabel={(user) =>
+            (toggleMode ? user.name : String(user.dateCreated)) || ""
+          }
+          value={form.receiver}
+          onChange={handleChange("receiver")}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Enter Receiver"
+              error={!!errors.receiver}
+              helperText={errors.receiver}
+              required
+            />
+          )}
+        />
+
+        <TextField
+          fullWidth
+          type="number"
+          size="small"
+          label="Enter Amount"
+          value={form.amount}
+          onChange={handleChange("amount")}
+          error={!!errors.amount}
+          helperText={errors.amount}
+        />
+        <Button
+          type="submit"
+          variant="contained"
+          size="medium"
+          endIcon={<SendIcon />}
+          sx={{ mt: 2 }}
+        >
+          Transfer
+        </Button>
+      </Box>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={2500}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+      >
+        <Alert
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          severity={snackbar.type}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

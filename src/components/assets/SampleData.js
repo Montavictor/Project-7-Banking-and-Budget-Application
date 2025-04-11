@@ -6,7 +6,7 @@ export const sampleData = () => {
       balance: 50000,
       email: "github.com/montavictor",
       age: 30,
-      dateCreated: Date.now() - 1000 * 60 * 60 * 24 * 7,
+      dateCreated: `${Date.now()}${Math.floor(Math.random() * 10000)}`,
       transactions: [
         {
           type: "deposit",
@@ -23,7 +23,7 @@ export const sampleData = () => {
       balance: 150000,
       email: "http://github.com/fern-sa",
       age: 28,
-      dateCreated: Date.now() - 1000 * 60 * 60 * 24 * 5,
+      dateCreated: `${Date.now()}${Math.floor(Math.random() * 10000)}`,
       transactions: [
         {
           type: "deposit",
@@ -42,7 +42,7 @@ export const sampleData = () => {
       ],
     },
   ];
-                      //"transactions", JSON.stringify(transactions)
+  //"transactions", JSON.stringify(transactions)
   localStorage.setItem("bankUsers", JSON.stringify(sampleUsers));
   return sampleUsers;
 };

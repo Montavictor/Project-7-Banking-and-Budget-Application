@@ -4,6 +4,8 @@ import {
   Autocomplete,
   Box,
   Button,
+  Card,
+  Paper,
   Snackbar,
   TextField,
   Typography,
@@ -100,70 +102,104 @@ function Withdraw() {
   const options = users;
 
   return (
-    <Box sx={{ maxWidth: 600, mx: "auto", mt: 4 }}>
-      <Typography variant="h2">Withdraw</Typography>
-      <Box component="form" mt={3} onSubmit={handleSubmit}>
-        <Autocomplete
-          size="small"
-          options={options}
-          getOptionLabel={(user) =>
-            `${user.dateCreated?.toString()} | ${user.name}`
-          }
-          value={form.name}
-          onChange={handleChange("name")}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Enter Name"
-              error={!!errors.name}
-              helperText={errors.name}
-            />
-          )}
-        />
-        <TextField
-          fullWidth
-          size="small"
-          label="Enter Amount"
-          type="number"
-          value={form.amount}
-          onChange={handleChange("amount")}
-          error={!!errors.amount}
-          helperText={errors.amount}
-        />
-        <Button
-          type="Submit"
-          variant="contained"
-          size="medium"
-          endIcon={<SendIcon />}
-          sx={{ mt: 2 }}
-        >
-          Withdraw
-        </Button>
-      </Box>
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={2500}
-        onClose={() =>
-          setSnackbar({
-            ...snackbar,
-            open: false,
-          })
-        }
+    <>
+      <Paper
+        component="div"
+        className="container"
+        sx={{
+          maxWidth: 700,
+          height: 350,
+          mx: "auto",
+          mt: 4,
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
-        <Alert
+        <Card sx={{ p: 1, display: "flex", height: 40, flexDirection: "column", alignItems:"flex-start", marginBottom:3, borderRadius:0,backgroundColor:"#eeee" }}>
+          <Typography variant="outline" sx={{ fontWeight: 500 }}>
+            Withdraw
+          </Typography>
+          <Typography variant="subtitle2" color="grey">
+            Withdraw Money from Account
+          </Typography>
+        </Card>
+        <Paper
+          sx={{
+            width: 400,
+            height: 200,
+            mx: "auto",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 3,
+          }}
+        >
+          <Box sx={{ p: 2 }} component="form" my="auto" onSubmit={handleSubmit}>
+            <Autocomplete
+              
+              size="small"
+              options={options}
+              getOptionLabel={(user) =>
+                `${user.dateCreated?.toString()} | ${user.name}`
+              }
+              value={form.name}
+              onChange={handleChange("name")}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Enter Name"
+                  error={!!errors.name}
+                  helperText={errors.name}
+                />
+              )}
+            />
+            <TextField
+              fullWidth
+              size="small"
+              label="Enter Amount"
+              type="number"
+              value={form.amount}
+              onChange={handleChange("amount")}
+              error={!!errors.amount}
+              helperText={errors.amount}
+            />
+            <Button
+              type="Submit"
+              variant="contained"
+              size="medium"
+              endIcon={<SendIcon />}
+              sx={{ mt: 2 }}
+              color="primary"
+            >
+              Withdraw
+            </Button>
+          </Box>
+        </Paper>
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={2500}
           onClose={() =>
             setSnackbar({
               ...snackbar,
               open: false,
             })
           }
-          severity={snackbar.type}
-          sx={{ width: "100%" }}
         >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
-    </Box>
+          <Alert
+            onClose={() =>
+              setSnackbar({
+                ...snackbar,
+                open: false,
+              })
+            }
+            severity={snackbar.type}
+            sx={{ width: "100%" }}
+          >
+            {snackbar.message}
+          </Alert>
+        </Snackbar>
+      </Paper>
+    </>
   );
 }
 

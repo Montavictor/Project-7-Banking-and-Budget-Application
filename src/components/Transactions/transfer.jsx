@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
-const findUserByName = (users, name) => users.find((u) => u.name === name);
-const findUserById = (users, id) => users.find((u) => u.dateCreated === id);
+// const findUserByName = (users, name) => users.find((u) => u.name === name);
+// const findUserById = (users, id) => users.find((u) => u.dateCreated === id);
 
 function Transfer() {
   const [users, setUsers] = useState(() => {
@@ -42,6 +42,7 @@ function Transfer() {
   const validate = () => {
     const { sender, receiver, amount } = form;
     let newErrors = {};
+    const newAmount = Number(amount);
     if (!sender) {
       newErrors.sender = "Sender is required.";
     }
@@ -53,6 +54,12 @@ function Transfer() {
     }
     if (!amount) {
       newErrors.amount = "Amount is required.";
+    }
+    if (newAmount <= 0) {
+      newErrors.amount = "Invalid Amount";
+    }
+    if (sender && amount && newAmount >= sender.balance){
+      newErrors.amount = "Insufficient Funds"
     }
 
     setErrors(newErrors);
@@ -166,7 +173,6 @@ function Transfer() {
               label="Enter Sender"
               error={!!errors.sender}
               helperText={errors.sender}
-              required
             />
           )}
         />
@@ -186,7 +192,6 @@ function Transfer() {
               label="Enter Receiver"
               error={!!errors.receiver}
               helperText={errors.receiver}
-              required
             />
           )}
         />

@@ -1,0 +1,16 @@
+.MuiFilledInput-root {
+    background-color: #fff6f8c1 !important;
+    text-align: left;
+    border-bottom: 1px solid #c62828;
+    padding: 5px !important;
+    margin: 0 !important;
+
+}
+
+.MuiFilledInput-root:hover {
+    border: 1px solid #c62828 !important ;
+}
+
+.MuiFilledInput-root::placeholder{
+    align-items: flex-end;
+}

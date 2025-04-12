@@ -3,14 +3,14 @@ export const sampleData = () => {
     {
       name: "Victor Anthony S. Monta",
       address: "Bacoor, Cavite",
-      balance: 50000,
+      balance: 5000000,
       email: "github.com/montavictor",
       age: 30,
-      dateCreated: `${Date.now()}${Math.floor(Math.random() * 10000)}`,
+      dateCreated: `${Date.now() - 1000 * 60 * 60 * 24 * 5}`,
       transactions: [
         {
           type: "deposit",
-          amount: 50000,
+          amount: 500000,
           transactionDate: new Date(
             Date.now() - 1000 * 60 * 60 * 24 * 3
           ).toISOString(),
@@ -20,10 +20,10 @@ export const sampleData = () => {
     {
       name: "Sam Fernandez",
       address: "Metro Manila, NCR",
-      balance: 150000,
-      email: "http://github.com/fern-sa",
+      balance: 15000000,
+      email: "github.com/fern-sa",
       age: 28,
-      dateCreated: `${Date.now()}${Math.floor(Math.random() * 10000)}`,
+      dateCreated: `${-1000 * 60 * 60 * 24 * 3 + Date.now()}`,
       transactions: [
         {
           type: "deposit",

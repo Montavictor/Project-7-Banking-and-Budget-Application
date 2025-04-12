@@ -4,13 +4,15 @@ import {
   Autocomplete,
   Box,
   Button,
+  Paper,
   Snackbar,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
+  Typography,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
-
+import "./withdraw.css";
 // const findUserByName = (users, name) => users.find((u) => u.name === name);
 // const findUserById = (users, id) => users.find((u) => u.dateCreated === id);
 
@@ -58,8 +60,8 @@ function Transfer() {
     if (newAmount <= 0) {
       newErrors.amount = "Invalid Amount";
     }
-    if (sender && amount && newAmount >= sender.balance){
-      newErrors.amount = "Insufficient Funds"
+    if (sender && amount && newAmount >= sender.balance) {
+      newErrors.amount = "Insufficient Funds";
     }
 
     setErrors(newErrors);
@@ -131,90 +133,136 @@ function Transfer() {
   const options = users;
 
   return (
-    <Box sx={{ maxWidth: 600, mx: "auto", mt: 4 }}>
-      <h1>Transfer Money</h1>
-
-      <ToggleButtonGroup
-        size="small"
-        value={toggleValue}
-        exclusive
-        onChange={(e, mode) => {
-          if (mode) {
-            setToggleValue(mode);
-            setForm({
-              sender: null,
-              receiver: null,
-              amount: "",
-            });
-          }
+    <Paper
+      component="div"
+      className="container"
+      sx={{
+        maxWidth: 500,
+        height: 380,
+        mx: "auto",
+        mt: 4,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <Paper
+        sx={{
+          p: 1,
+          display: "flex",
+          height: 40,
+          flexDirection: "column",
+          alignItems: "flex-start",
+          marginBottom: 3,
+          borderBottomRightRadius: 0,
+          borderBottomLeftRadius: 0,
+          background: "#c62828",
         }}
-        color="primary"
       >
-        <ToggleButton value="username" className="user-btn">
-          With Username
-        </ToggleButton>
-        <ToggleButton value="id" className="user-id">
-          with Account ID
-        </ToggleButton>
-      </ToggleButtonGroup>
-
-      <Box component="form" mt={3} onSubmit={handleSubmit}>
-        <Autocomplete
-          size="small"
-          options={options}
-          getOptionLabel={(user) =>
-            (toggleMode ? user.name : String(user.dateCreated)) || ""
-          }
-          value={form.sender}
-          onChange={handleChange("sender")}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Enter Sender"
-              error={!!errors.sender}
-              helperText={errors.sender}
-            />
-          )}
-        />
-
-        <Autocomplete
-          // sx={{ width: 300 }}
-          size="small"
-          options={options}
-          getOptionLabel={(user) =>
-            (toggleMode ? user.name : String(user.dateCreated)) || ""
-          }
-          value={form.receiver}
-          onChange={handleChange("receiver")}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Enter Receiver"
-              error={!!errors.receiver}
-              helperText={errors.receiver}
-            />
-          )}
-        />
-
-        <TextField
-          fullWidth
-          type="number"
-          size="small"
-          label="Enter Amount"
-          value={form.amount}
-          onChange={handleChange("amount")}
-          error={!!errors.amount}
-          helperText={errors.amount}
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          size="medium"
-          endIcon={<SendIcon />}
-          sx={{ mt: 2 }}
-        >
+        <Typography variant="outline" color="#ffff" sx={{ fontWeight: 700 }}>
           Transfer
-        </Button>
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          sx={{ fontSize: "12px" }}
+          color="secondary"
+        >
+          Transfer Money from Account to Another
+        </Typography>
+      </Paper>
+      <Box
+        sx={{
+          width: 300,
+          height: "auto",
+          mx: "auto",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 2,
+        }}
+      >
+        <ToggleButtonGroup
+          size="small"
+          value={toggleValue}
+          exclusive
+          onChange={(e, mode) => {
+            if (mode) {
+              setToggleValue(mode);
+              setForm({
+                sender: null,
+                receiver: null,
+                amount: "",
+              });
+            }
+          }}
+          color="primary"
+        >
+          <ToggleButton value="username" sx={{ fontSize: 12 }}>
+            With Username
+          </ToggleButton>
+          <ToggleButton value="id" sx={{ fontSize: 12 }} className="user-id">
+            with Account ID
+          </ToggleButton>
+        </ToggleButtonGroup>
+
+        <Box component="form" mt={1} sx={{ mb: 2 }} onSubmit={handleSubmit}>
+          <Autocomplete
+            size="small"
+            options={options}
+            sx={{ mb: 2 }}
+            getOptionLabel={(user) =>
+              (toggleMode ? user.name : String(user.dateCreated)) || ""
+            }
+            value={form.sender}
+            onChange={handleChange("sender")}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Enter Sender"
+                error={!!errors.sender}
+                helperText={errors.sender}
+              />
+            )}
+          />
+
+          <Autocomplete
+            size="small"
+            options={options}
+            sx={{ mb: 2 }}
+            getOptionLabel={(user) =>
+              (toggleMode ? user.name : String(user.dateCreated)) || ""
+            }
+            value={form.receiver}
+            onChange={handleChange("receiver")}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Enter Receiver"
+                error={!!errors.receiver}
+                helperText={errors.receiver}
+              />
+            )}
+          />
+
+          <TextField
+            fullWidth
+            type="number"
+            size="small"
+            label="Enter Amount"
+            value={form.amount}
+            onChange={handleChange("amount")}
+            error={!!errors.amount}
+            helperText={errors.amount}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            size="medium"
+            endIcon={<SendIcon />}
+            sx={{ mt: 3 }}
+          >
+            Transfer
+          </Button>
+        </Box>
       </Box>
       <Snackbar
         open={snackbar.open}
@@ -229,7 +277,7 @@ function Transfer() {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </Box>
+    </Paper>
   );
 }
 

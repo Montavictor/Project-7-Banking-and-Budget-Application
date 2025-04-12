@@ -1,3 +1,30 @@
 .container {
-    background: #f4f4f4ee;
+  background: #f4f4f4ee;
+}
+
+.MuiAutocomplete-option {
+  font-size: 14px;
+  padding: 10px;
+  color: #333;
+}
+
+.custom-autocomplete input,
+.costum-textfield input {
+  font-size: 13px !important;
+  color: #222 !important;
+}
+.custom-autocomplete input {
+  padding: 6px !important;
+}
+.costum-textfield input {
+  padding: 4px !important;
+}
+
+.MuiToggleButton-root.Mui-selected {
+  background-color: #c62828 !important;
+  color: white !important;
+}
+.MuiToggleButton-root.Mui-selected:hover {
+  background-color: #8a1c1c !important;
+  color: white !important;
 }

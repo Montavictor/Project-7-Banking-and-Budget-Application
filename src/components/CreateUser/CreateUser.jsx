@@ -1,5 +1,17 @@
 import { useState } from "react";
-import { Snackbar, Alert, Paper, Button, TextField } from "@mui/material";
+import {
+  Box,
+  Snackbar,
+  Alert,
+  Paper,
+  InputLabel,
+  Button,
+  TextField,
+  Typography,
+  Stack,
+  Divider,
+  InputAdornment,
+} from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import "./CreateUser.css";
 
@@ -8,7 +20,6 @@ function CreateUser() {
     name: "",
     address: "",
     age: "",
-    maritalStatus: "",
     email: "",
     initialBalance: "",
   });
@@ -16,17 +27,17 @@ function CreateUser() {
   // error handling
   const [error, setError] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
 
   // submit button
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, address, age, initialBalance, email } = inputData;
+    const { name, address, age, email, initialBalance } = inputData;
     const numAge = Number(age.trim());
     const balance = Number(initialBalance) || 0;
     const users = JSON.parse(localStorage.getItem("bankUsers")) || [];
 
     // error handling
+    // validation
     if (!name || name.trim() === "") {
       setError("Name is required");
       return;
@@ -62,10 +73,7 @@ function CreateUser() {
     } else if (
       users.find((user) => user.name.toLowerCase() === name.toLowerCase())
     ) {
-      setError(
-        "Error: User's Name Already Exists. Is He/She a different person?"
-      );
-      setShowConfirmation(true);
+      setError("Error: User's Name Already Exists.");
       return;
     } else {
       createNewUser();
@@ -74,11 +82,8 @@ function CreateUser() {
 
   // creating a new user and pushing it to database
   function createNewUser() {
-    setShowConfirmation(false);
-
-    const dateCreated = Date.now();
+    const dateCreated = Date.now().toString();
     const users = JSON.parse(localStorage.getItem("bankUsers")) || [];
-
     const { name, address, initialBalance, email, age } = inputData;
     const balance = Number(initialBalance) || 0;
     const newUser = {
@@ -93,7 +98,6 @@ function CreateUser() {
 
     users.push(newUser);
     localStorage.setItem("bankUsers", JSON.stringify(users));
-
     setShowSuccess(true);
     setInputData({
       name: "",
@@ -117,100 +121,169 @@ function CreateUser() {
   };
 
   return (
-    <div className="createUser">
-      <h1>Create New User</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name:</label>
-          <input
+    <Stack
+      direction={"column"}
+      sx={{ width: 700, height: "100%", background: "secondary" }}
+      className="createUser"
+    >
+      <Paper component="form" onSubmit={handleSubmit} sx={{ width: "80%" }}>
+        <Paper
+          sx={{
+            p: 1,
+            display: "flex",
+            height: 40,
+            flexDirection: "column",
+            alignItems: "flex-start",
+            marginBottom: 3,
+            borderBottomRightRadius: 0,
+            borderBottomLeftRadius: 0,
+            background: "#c62828",
+            width: "98%",
+          }}
+        >
+          <Typography variant="outline" color="#ffff" sx={{ fontWeight: 600 }}>
+            Create Account
+          </Typography>
+          <Typography
+            variant="subtitle2"
+            sx={{ fontSize: "13px" }}
+            color="secondary"
+          >
+            Input client's data to create a new Account
+          </Typography>
+        </Paper>
+        <Box
+          sx={{ p: 2, width: "92%", display: "flex", flexDirection: "column" }}
+        >
+          <InputLabel htmlFor="name">Full Name*</InputLabel>
+          <TextField
+            sx={{ p: 1, width: "100%", fontSize: "12px", textAlign: "center" }}
+            size="small"
             type="text"
             name="name"
+            variant="filled"
             onChange={handleChange}
             value={inputData.name}
-            placeholder="Enter Your Name"
+            placeholder="e.g. Dela Cruz, Juan"
+            error={!!error && error.toLowerCase().includes("name")}
+            helperText={
+              error && error.toLowerCase().includes("name") ? error : ""
+            }
             required
           />
-        </div>
-        <div>
-          <label htmlFor="address">Address:</label>
-          <textarea
+        </Box>
+        <Divider />
+        <Box
+          sx={{ p: 2, width: "92%", display: "flex", flexDirection: "column" }}
+        >
+          <InputLabel htmlFor="address">Address</InputLabel>
+          <TextField
+            multiline
+            maxRows={3}
+            rows={2}
+            sx={{ p: 1, width: "100%" }}
+            variant="filled"
+            placeholder="Enter Address"
             type="text"
             name="address"
             onChange={handleChange}
             value={inputData.address}
+            error={!!error && error.toLowerCase().includes("address")}
+            helperText={
+              error && error.toLowerCase().includes("address") ? error : ""
+            }
             required
           />
-        </div>
-        <div>
-          <label htmlFor="age">Age:</label>
-          <input
+        </Box>
+        <Divider />
+        <Stack direction={"row"}>
+          <Box
+            sx={{
+              p: 2,
+              width: "30%",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <InputLabel htmlFor="age">Age</InputLabel>
+            <TextField
+              className="my-textfield"
+              sx={{ p: 1, width: "80%", fontSize: "12px", textAlign: "center" }}
+              size="small"
+              type="number"
+              name="age"
+              variant="filled"
+              onChange={handleChange}
+              value={inputData.age}
+              error={!!error && error.toLowerCase().includes("age")}
+              helperText={
+                error && error.toLowerCase().includes("age") ? error : ""
+              }
+              required
+            />
+          </Box>
+          <Box
+            sx={{
+              p: 2,
+              width: "92%",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <InputLabel htmlFor="email">Email</InputLabel>
+            <TextField
+              sx={{ p: 1, width: "95%", fontSize: "12px", textAlign: "center" }}
+              variant="filled"
+              placeholder="Enter Email"
+              type="email"
+              name="email"
+              onChange={handleChange}
+              value={inputData.email}
+              error={!!error && error.toLowerCase().includes("email")}
+              helperText={
+                error && error.toLowerCase().includes("email") ? error : ""
+              }
+              required
+            />
+          </Box>
+        </Stack>
+        <Box
+          sx={{
+            p: 2,
+            width: "55%",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <InputLabel htmlFor="initialBalance">Initial Deposit</InputLabel>
+          <TextField
+            sx={{ p: 1, width: "100%", fontSize: "12px", textAlign: "center" }}
             type="number"
-            name="age"
-            onChange={handleChange}
-            value={inputData.age}
-            required
-            min="18"
-            max="120"
-          />
-        </div>
-        <div>
-          <label htmlFor="initialBalance">Initial Balance:</label>
-          <input
-            type="number"
+            variant="filled"
             name="initialBalance"
             onChange={handleChange}
             placeholder="Minimum Deposit of PHP 3,000"
             value={inputData.initialBalance}
-            min="3000"
-            max="4000000"
             required
+            error={!!error && error.toLowerCase().includes("deposit")}
+            helperText={
+              error && error.toLowerCase().includes("deposit") ? error : ""
+            }
           />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            name="email"
-            onChange={handleChange}
-            value={inputData.email}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="maritalStatus">Marital Status:</label>
-          <select
-            name="maritalStatus"
-            value={inputData.maritalStatus}
-            onChange={handleChange}
-          >
-            <option defaultValue disabled>
-              Select Option
-            </option>
-            <option value="single">Single</option>
-            <option value="married">Married</option>
-            <option value="divorced">Divorced</option>
-            <option value="widowed">Widowed</option>
-          </select>
-        </div>
-        <input type="submit" onClick={handleSubmit} className="submitBtn" />
-      </form>
-      <div>
-        {!!error && <p className="error">{error}</p>}
-        {showSuccess && <p className="success">{showSuccess}</p>}
-        {showConfirmation && (
-          <div className="confirmation">
-            <button className="button" onClick={createNewUser}>
-              Yes
-            </button>
-            <button
-              className="button"
-              onClick={() => setShowConfirmation(false)}
-            >
-              No
-            </button>
-          </div>
-        )}
-      </div>
+        </Box>
+        <Divider />
+        <Button
+          type="submit"
+          sx={{ marginTop: 3, marginLeft: 2.5 }}
+          size="large"
+          variant="contained"
+          onClick={handleSubmit}
+          className="submitBtn"
+          endIcon={<SendIcon />}
+        >
+          Submit
+        </Button>
+      </Paper>
       <Snackbar
         open={showSuccess}
         autoHideDuration={2000}
@@ -218,7 +291,7 @@ function CreateUser() {
       >
         <Alert severity="success">User created successfully!</Alert>
       </Snackbar>
-    </div>
+    </Stack>
   );
 }
 

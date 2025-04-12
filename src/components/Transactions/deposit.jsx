@@ -4,6 +4,7 @@ import {
   Autocomplete,
   Box,
   Button,
+  Paper,
   Snackbar,
   TextField,
   Typography,
@@ -87,45 +88,92 @@ function Deposit() {
   };
   const options = users;
   return (
-    <Box sx={{ maxWidth: 600, mx: "auto", mt: 4 }}>
-      <Typography variant="h2">Deposit</Typography>
-      <Box component="form" mt={3} onSubmit={handleSubmit}>
-        <Autocomplete
-          size="small"
-          options={options}
-          getOptionLabel={(user) =>
-            `${user.dateCreated?.toString()} | ${user.name}`
-          }
-          value={form.name}
-          onChange={handleChange("name")}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Enter Name"
-              error={!!errors.name}
-              helperText={errors.name}
-            />
-          )}
-        />
-        <TextField
-          fullWidth
-          size="small"
-          label="Enter Amount"
-          type="number"
-          value={form.amount}
-          onChange={handleChange("amount")}
-          error={!!errors.amount}
-          helperText={errors.amount}
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          size="medium"
-          endIcon={<SendIcon />}
-          sx={{ mt: 2 }}
-        >
+    <Paper
+      component="div"
+      className="container"
+      sx={{
+        maxWidth: 500,
+        height: 300,
+        mx: "auto",
+        mt: 4,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <Paper
+        sx={{
+          p: 1,
+          display: "flex",
+          height: 40,
+          flexDirection: "column",
+          alignItems: "flex-start",
+          marginBottom: 3,
+          borderBottomRightRadius: 0,
+          borderBottomLeftRadius: 0,
+          background: "#c62828",
+        }}
+      >
+        <Typography variant="outline" color="#ffff" sx={{ fontWeight: 700 }}>
           Deposit
-        </Button>
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          sx={{ fontSize: "12px" }}
+          color="secondary"
+        >
+          Deposit Money to Account
+        </Typography>
+      </Paper>
+      <Box
+        sx={{
+          width: 300,
+          height: "auto",
+          mx: "auto",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 3,
+        }}
+      >
+        <Box component="form" onSubmit={handleSubmit} sx={{ gap: 3, mt: 2.5 }}>
+          <Autocomplete
+            size="small"
+            sx={{ mb: 2 }}
+            options={options}
+            getOptionLabel={(user) =>
+              `${user.dateCreated?.toString()} | ${user.name}`
+            }
+            value={form.name}
+            onChange={handleChange("name")}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Enter Name"
+                error={!!errors.name}
+                helperText={errors.name}
+              />
+            )}
+          />
+          <TextField
+            fullWidth
+            size="small"
+            label="Enter Amount"
+            type="number"
+            value={form.amount}
+            onChange={handleChange("amount")}
+            error={!!errors.amount}
+            helperText={errors.amount}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            size="medium"
+            endIcon={<SendIcon />}
+            sx={{ mt: 2 }}
+          >
+            Deposit
+          </Button>
+        </Box>
       </Box>
       <Snackbar
         open={snackbar.open}
@@ -150,7 +198,7 @@ function Deposit() {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </Box>
+    </Paper>
   );
 }
 

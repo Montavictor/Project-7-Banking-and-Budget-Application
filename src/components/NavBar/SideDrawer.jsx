@@ -87,6 +87,7 @@ export default function Sidebar({ setSelectedView }) {
       >
         <Toolbar />
         <Button
+          onClick={() => setSelectedView("Users")}
           startIcon={
             <AccountBalanceIcon
               sx={{ color: "#8a1c1c", transform: "scale(1.5)" }}

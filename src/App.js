@@ -63,11 +63,11 @@ function App() {
         <Box
           className="div2"
           sx={{
-            gridArea: "1 / 2 / 3 / 7",
+            gridArea: "1 / 1 / 3 / 7",
             background: "#9f9",
           }}
         >
-          <TopBar />
+          <TopBar sx={{ zIndex: 11 }} />
         </Box>
         <Box
           className="div3"

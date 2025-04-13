@@ -52,7 +52,11 @@ function Users() {
 
   return (
     <Box>
-      <Stack direction="row" gap={2}>
+      <Stack
+        direction={"row"}
+        gap={2}
+        sx={{ border: "2px solid green", justifyContent: "center", mt: 1 }}
+      >
         <Stack
           component={Paper}
           direction={"row"}
@@ -95,6 +99,30 @@ function Users() {
             </Typography>
             <Typography fontSize={12} fontWeight={600} variant="overline">
               Total Balance
+            </Typography>
+            <Typography fontSize={11} color="primary.dark" variant="subtitle2">
+              in Bank Rupt
+            </Typography>
+          </Stack>
+        </Stack>
+        <Stack
+          component={Paper}
+          direction={"row"}
+          sx={{ width: 220, height: 110, alignItems: "center", p: 1 }}
+        >
+          <GroupIcon sx={{ color: "primary.dark", fontSize: 70, p: 1 }} />
+          <Divider orientation="vertical" flexItem />
+          <Stack sx={{ p: 1 }}>
+            <Typography
+              fontSize={54}
+              color="primary.dark"
+              fontWeight={550}
+              variant="h3"
+            >
+              121
+            </Typography>
+            <Typography fontSize={12} fontWeight={600} variant="overline">
+              Placeholder
             </Typography>
             <Typography fontSize={11} color="primary.dark" variant="subtitle2">
               in Bank Rupt

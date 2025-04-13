@@ -17,7 +17,9 @@ import MailIcon from "@mui/icons-material/Mail";
 export default function TopBar() {
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar sx={{ width: "85%", maxHeight: 100 }}>
+      <AppBar
+        sx={{ position: "fixed", width: "100%", maxHeight: 100, zIndex: 11 }}
+      >
         <Toolbar>
           <Typography
             variant="h4"

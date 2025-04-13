@@ -6,7 +6,7 @@ export const sampleData = () => {
       balance: 5000000,
       email: "github.com/montavictor",
       age: 30,
-      dateCreated: `${Date.now() - 1000 * 60 * 60 * 24 * 5}`,
+      dateCreated: `${Date.now() - 1000 * 60 * 60 * 24 * 1}`,
       transactions: [
         {
           type: "deposit",

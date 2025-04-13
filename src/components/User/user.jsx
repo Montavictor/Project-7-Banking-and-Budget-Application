@@ -22,12 +22,18 @@ function Users() {
   const [users, setUsers] = useState(() => {
     return JSON.parse(localStorage.getItem("bankUsers") || []);
   });
+
+  const recentUsers = users.sort(
+    (a, b) =>
+      new Date(b.dateCreated).toLocaleDateString() -
+      new Date(a.dateCreated).toLocaleDateString()
+  );
   const totalAmount = users.reduce((sum, user) => sum + user.balance, 0);
   const amountFormat = new Intl.NumberFormat("en-PH", {
     style: "currency",
     currency: "PHP",
   }).format(totalAmount);
-  const getTransactions = () => {};
+
   const handleBalance = (num) => {
     return new Intl.NumberFormat("en-PH", {
       style: "currency",
@@ -46,55 +52,68 @@ function Users() {
 
   return (
     <Box>
-      <Stack
-        component={Paper}
-        direction={"row"}
-        sx={{ width: 220, height: 120, alignItems: "center", p: 1 }}
-      >
-        <GroupIcon sx={{ color: "primary.dark", fontSize: 70, p: 1 }} />
-        <Divider orientation="vertical" flexItem />
-        <Stack sx={{ p: 1 }}>
-          <Typography
-            fontSize={54}
-            color="primary.dark"
-            fontWeight={550}
-            variant="h3"
-          >
-            {users.length}
-          </Typography>
-          <Typography fontSize={12} fontWeight={600} variant="overline">
-            Current Users
-          </Typography>
-          <Typography fontSize={11} color="primary.dark" variant="subtitle2">
-            in Avion Bank
-          </Typography>
+      <Stack direction="row" gap={2}>
+        <Stack
+          component={Paper}
+          direction={"row"}
+          sx={{ width: 220, height: 110, alignItems: "center", p: 1 }}
+        >
+          <GroupIcon sx={{ color: "primary.dark", fontSize: 70, p: 1 }} />
+          <Divider orientation="vertical" flexItem />
+          <Stack sx={{ p: 1 }}>
+            <Typography
+              fontSize={54}
+              color="primary.dark"
+              fontWeight={550}
+              variant="h3"
+            >
+              {users.length}
+            </Typography>
+            <Typography fontSize={12} fontWeight={600} variant="overline">
+              Current Users
+            </Typography>
+            <Typography fontSize={11} color="primary.dark" variant="subtitle2">
+              in Bank Rupt
+            </Typography>
+          </Stack>
+        </Stack>
+        <Stack
+          component={Paper}
+          direction={"row"}
+          sx={{ width: 250, height: 110, alignItems: "center", p: 1 }}
+        >
+          <SavingsIcon sx={{ color: "primary.dark", fontSize: 70, p: 1 }} />
+          <Divider orientation="vertical" flexItem />
+          <Stack sx={{ p: 1 }}>
+            <Typography
+              fontSize={20}
+              color="primary.dark"
+              fontWeight={550}
+              variant="h6"
+            >
+              {amountFormat}
+            </Typography>
+            <Typography fontSize={12} fontWeight={600} variant="overline">
+              Total Balance
+            </Typography>
+            <Typography fontSize={11} color="primary.dark" variant="subtitle2">
+              in Bank Rupt
+            </Typography>
+          </Stack>
         </Stack>
       </Stack>
-      <Stack
+      <TableContainer
         component={Paper}
-        direction={"row"}
-        sx={{ width: 250, height: 120, alignItems: "center", p: 1 }}
+        elevation={4}
+        sx={{
+          mt: 1,
+          minWidth: "400px",
+          maxWidth: "95%",
+          maxHeight: "350px",
+          overflowY: "auto",
+          justifySelf: "center",
+        }}
       >
-        <SavingsIcon sx={{ color: "primary.dark", fontSize: 70, p: 1 }} />
-        <Divider orientation="vertical" flexItem />
-        <Stack sx={{ p: 1 }}>
-          <Typography
-            fontSize={20}
-            color="primary.dark"
-            fontWeight={550}
-            variant="h6"
-          >
-            {amountFormat}
-          </Typography>
-          <Typography fontSize={12} fontWeight={600} variant="overline">
-            Total Balance
-          </Typography>
-          <Typography fontSize={11} color="primary.dark" variant="subtitle2">
-            in Avion Bank
-          </Typography>
-        </Stack>
-      </Stack>
-      <TableContainer component={Paper} elevation={4} sx={{ width: "800px" }}>
         <Table aria-label="user-table">
           <TableHead>
             <TableRow sx={{ background: "#c62828" }}>
@@ -104,32 +123,54 @@ function Users() {
                   fontSize: "14px",
                   fontWeight: "bold",
                   width: "90px",
+                  textIndent: 7,
+                  p: 1.3,
                 }}
               >
                 ID
               </TableCell>
               <TableCell
-                sx={{ color: "white", fontSize: "14px", fontWeight: "bold" }}
+                sx={{
+                  color: "white",
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                  textIndent: 8,
+                  p: 1.3,
+                }}
               >
                 Name
               </TableCell>
               <TableCell
-                sx={{ color: "white", fontSize: "14px", fontWeight: "bold" }}
+                sx={{
+                  color: "white",
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                  p: 1.3,
+                  pl: 2,
+                }}
               >
                 Email
               </TableCell>
               <TableCell
-                sx={{ color: "white", fontSize: "14px", fontWeight: "bold" }}
+                sx={{
+                  color: "white",
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                  p: 1.3,
+                  pl: 2,
+                }}
               >
                 Balance
               </TableCell>
               <TableCell
                 sx={{
                   color: "white",
-                  fontSize: "14px",
+                  fontSize: "12px",
                   fontWeight: "bold",
                   textAlign: "center",
-                  width: "90px",
+                  width: "40px",
+                  p: 1.3,
+                  pl: 2,
                 }}
               >
                 Date Created
@@ -140,15 +181,20 @@ function Users() {
                   color: "white",
                   fontSize: "14px",
                   fontWeight: "bold",
+                  p: 1.3,
+                  pl: 2,
                 }}
               ></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.map((user) => (
+            {recentUsers.map((user, index) => (
               <TableRow
-                key={user.dateCreated}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                key={index}
+                sx={{
+                  backgroundColor: index % 2 === 0 ? "white" : "#ffebee",
+                  "&:last-child td, &:last-child th": { border: 0 },
+                }}
               >
                 <TableCell>{user.dateCreated}</TableCell>
                 <TableCell>{user.name}</TableCell>

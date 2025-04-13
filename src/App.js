@@ -1,4 +1,3 @@
-import "./App.css";
 import CreateUser from "./components/CreateUser/CreateUser";
 import Transfer from "./components/Transactions/transfer";
 import { sampleData } from "./components/assets/SampleData";
@@ -9,15 +8,17 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Deposit from "./components/Transactions/deposit";
 import Withdraw from "./components/Transactions/withraw";
 import Users from "./components/User/user";
-import { ButtonGroup, Stack, Box } from "@mui/material";
+import { Stack, Box, AppBar, Toolbar, Typography, Grid } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import Sidebar from "./components/NavBar/SideDrawer.jsx";
+import TopBar from "./components/NavBar/Topbar.jsx";
 
 // sample data if users is empty
-
 if (!localStorage.getItem("bankUsers")) {
   sampleData();
 }
 function App() {
+  const [selectedView, setSelectedView] = useState("Users");
   const theme = createTheme({
     palette: {
       primary: {
@@ -34,43 +35,66 @@ function App() {
       },
     },
   });
-  const [toggle, setToggle] = useState("users");
-
-  const handleChange = (e, toggleValue) => {
-    setToggle(toggleValue);
-  };
   return (
     <ThemeProvider theme={theme}>
       <Box
+        container
+        className="parent"
         sx={{
-          background: "linear-gradient(135deg, #F5F7FA 0%, #E9ECF5 100%)",
-          height: "auto",
+          background: "#fafafa",
+
+          height: "100vh",
+          display: "grid",
+          gridTemplateColumns: "repeat(6, 1fr)",
+          gridTemplateRows: "0.5fr repeat(4, 1fr)",
+          gridColumnGap: 0,
+          gridRowGap: 0,
         }}
       >
-        <ToggleButtonGroup
-          sx={{ position: "static", left: 0 }}
-          color="primary"
-          value={toggle}
-          size="small"
-          orientation="vertical"
-          exclusive
-          onChange={handleChange}
-          aria-label="Platform"
+        <Box
+          className="div1"
+          sx={{
+            gridArea: "1 / 1 / 6 / 2",
+            background: "#f99",
+          }}
         >
-          <Stack direction="column">
-            <ToggleButton value="users">Users</ToggleButton>
-            <ToggleButton value="createuser">Create User</ToggleButton>
-            <ToggleButton value="transfer">Transfer</ToggleButton>
-            <ToggleButton value="deposit">Deposit</ToggleButton>
-            <ToggleButton value="withdraw">Withdraw</ToggleButton>
-          </Stack>
-        </ToggleButtonGroup>
-
-        {toggle === "createuser" && <CreateUser />}
-        {toggle === "transfer" && <Transfer />}
-        {toggle === "deposit" && <Deposit />}
-        {toggle === "withdraw" && <Withdraw />}
-        {toggle === "users" && <Users />}
+          <Sidebar setSelectedView={setSelectedView} />
+        </Box>
+        <Box
+          className="div2"
+          sx={{
+            gridArea: "1 / 2 / 3 / 7",
+            background: "#9f9",
+          }}
+        >
+          <TopBar />
+        </Box>
+        <Box
+          className="div3"
+          sx={{
+            gridArea: "2 / 2 / 6 / 6",
+            background: "#99f",
+          }}
+        >
+          {/* {selectedView === "Dashboard" && <Dashboard />} */}
+          {selectedView === "Users" && <Users />}
+          {selectedView === "Create User" && <CreateUser />}
+          {/* {selectedView === "Budget" && <Budget />} */}
+          {selectedView === "Deposit" && <Deposit />}
+          {selectedView === "Withdraw" && <Withdraw />}
+          {selectedView === "Transfer" && <Transfer />}
+        </Box>
+        <Box
+          className="div4"
+          sx={{
+            gridArea: "1 / 6 / 6 / 7",
+            background: "lightgreen",
+            border: "2px solid green",
+            display: "flex",
+          }}
+        >
+          <Typography alignSelf={"center"}>Another sidebar</Typography>
+        </Box>
       </Box>
     </ThemeProvider>
   );

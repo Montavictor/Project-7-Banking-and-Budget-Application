@@ -123,13 +123,24 @@ function CreateUser() {
   return (
     <Stack
       direction={"column"}
-      sx={{ width: 700, height: "100%", background: "secondary" }}
+      sx={{ width: "100%", height: "100%" }}
       className="createUser"
     >
-      <Paper component="form" onSubmit={handleSubmit} sx={{ width: "80%" }}>
+      <Paper
+        component="form"
+        onSubmit={handleSubmit}
+        elevation={6}
+        sx={{
+          width: "100%",
+          height: "auto",
+          maxHeight: "100%",
+          overflowY: "scroll",
+          overflowX: "hidden",
+        }}
+      >
         <Paper
           sx={{
-            p: 1,
+            p: 2,
             display: "flex",
             height: 40,
             flexDirection: "column",
@@ -138,7 +149,7 @@ function CreateUser() {
             borderBottomRightRadius: 0,
             borderBottomLeftRadius: 0,
             background: "#c62828",
-            width: "98%",
+            width: "100%",
           }}
         >
           <Typography variant="outline" color="#ffff" sx={{ fontWeight: 600 }}>
@@ -153,11 +164,11 @@ function CreateUser() {
           </Typography>
         </Paper>
         <Box
-          sx={{ p: 2, width: "92%", display: "flex", flexDirection: "column" }}
+          sx={{ p: 2, width: "100%", display: "flex", flexDirection: "column" }}
         >
-          <InputLabel htmlFor="name">Full Name*</InputLabel>
+          <InputLabel htmlFor="name">Full Name</InputLabel>
           <TextField
-            sx={{ p: 1, width: "100%", fontSize: "12px", textAlign: "center" }}
+            sx={{ p: 1, width: "95%", fontSize: "12px", textAlign: "center" }}
             size="small"
             type="text"
             name="name"
@@ -174,14 +185,13 @@ function CreateUser() {
         </Box>
         <Divider />
         <Box
-          sx={{ p: 2, width: "92%", display: "flex", flexDirection: "column" }}
+          sx={{ p: 2, width: "100%", display: "flex", flexDirection: "column" }}
         >
           <InputLabel htmlFor="address">Address</InputLabel>
           <TextField
             multiline
-            maxRows={3}
             rows={2}
-            sx={{ p: 1, width: "100%" }}
+            sx={{ p: 1, width: "95%" }}
             variant="filled"
             placeholder="Enter Address"
             type="text"
@@ -225,14 +235,19 @@ function CreateUser() {
           <Box
             sx={{
               p: 2,
-              width: "92%",
+              width: "95%",
               display: "flex",
               flexDirection: "column",
             }}
           >
             <InputLabel htmlFor="email">Email</InputLabel>
             <TextField
-              sx={{ p: 1, width: "95%", fontSize: "12px", textAlign: "center" }}
+              sx={{
+                p: 1,
+                width: "100%",
+                fontSize: "12px",
+                textAlign: "center",
+              }}
               variant="filled"
               placeholder="Enter Email"
               type="email"
@@ -274,7 +289,7 @@ function CreateUser() {
         <Divider />
         <Button
           type="submit"
-          sx={{ marginTop: 3, marginLeft: 2.5 }}
+          sx={{ marginTop: 3, marginLeft: 2.5, mb: 2 }}
           size="large"
           variant="contained"
           onClick={handleSubmit}

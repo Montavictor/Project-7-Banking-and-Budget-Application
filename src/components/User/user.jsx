@@ -24,9 +24,7 @@ function Users() {
   });
 
   const recentUsers = users.sort(
-    (a, b) =>
-      new Date(b.dateCreated).toLocaleDateString() -
-      new Date(a.dateCreated).toLocaleDateString()
+    (a, b) => new Date(Number(b.dateCreated)) - new Date(Number(a.dateCreated))
   );
   const totalAmount = users.reduce((sum, user) => sum + user.balance, 0);
   const amountFormat = new Intl.NumberFormat("en-PH", {

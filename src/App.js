@@ -12,6 +12,7 @@ import Sidebar from "./components/NavBar/SideDrawer.jsx";
 import TopBar from "./components/NavBar/Topbar.jsx";
 import "./App.css";
 import Rightbar from "./components/NavBar/Rightbar.jsx";
+import Budget from './components/Budget/Budget.jsx'
 
 // sample data if users is empty
 if (!localStorage.getItem("bankUsers")) {
@@ -78,7 +79,7 @@ function App() {
           {/* {selectedView === "Dashboard" && <Dashboard />} */}
           {selectedView === "Users" && <Users />}
           {selectedView === "Create User" && <CreateUser />}
-          {/* {selectedView === "Budget" && <Budget />} */}
+          {selectedView === "Budget" && <Budget />}
           {selectedView === "Deposit" && <Deposit />}
           {selectedView === "Withdraw" && <Withdraw />}
           {selectedView === "Transfer" && <Transfer />}

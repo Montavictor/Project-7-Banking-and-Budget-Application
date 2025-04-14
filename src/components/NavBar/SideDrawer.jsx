@@ -75,7 +75,7 @@ export default function Sidebar({ setSelectedView }) {
     <Box sx={{ display: "flex", position: "absolute" }}>
       <Drawer
         sx={{
-          width: drawerWidth,
+          width: "100%",
           flexShrink: 0,
           "& .MuiDrawer-paper": {
             width: drawerWidth,

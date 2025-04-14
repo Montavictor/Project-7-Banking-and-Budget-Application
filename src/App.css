@@ -1,0 +1,8 @@
+.sidebar-left {
+  z-index: 2 !important;
+}
+.topbar {
+  z-index: 3 !important;
+  background-color: aqua !important;
+  height: 100% !important;
+}

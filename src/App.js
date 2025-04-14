@@ -3,15 +3,15 @@ import Transfer from "./components/Transactions/transfer";
 import { sampleData } from "./components/assets/SampleData";
 import * as React from "react";
 import { useState } from "react";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Deposit from "./components/Transactions/deposit";
 import Withdraw from "./components/Transactions/withraw";
 import Users from "./components/User/user";
-import { Stack, Box, AppBar, Toolbar, Typography, Grid } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Sidebar from "./components/NavBar/SideDrawer.jsx";
 import TopBar from "./components/NavBar/Topbar.jsx";
+import "./App.css";
+import Rightbar from "./components/NavBar/Rightbar.jsx";
 
 // sample data if users is empty
 if (!localStorage.getItem("bankUsers")) {
@@ -52,22 +52,21 @@ function App() {
         }}
       >
         <Box
-          className="div1"
+          className="sidebar-left"
           sx={{
-            gridArea: "1 / 1 / 6 / 2",
+            gridArea: "2 / 1 / 6 / 2",
             background: "#f99",
           }}
         >
           <Sidebar setSelectedView={setSelectedView} />
         </Box>
         <Box
-          className="div2"
+          className="topbar"
           sx={{
-            gridArea: "1 / 1 / 3 / 7",
-            background: "#9f9",
+            gridArea: "1 / 1 / 2 / 7",
           }}
         >
-          <TopBar sx={{ zIndex: 11 }} />
+          <TopBar setSelectedView={setSelectedView} />
         </Box>
         <Box
           className="div3"
@@ -87,13 +86,14 @@ function App() {
         <Box
           className="div4"
           sx={{
-            gridArea: "1 / 6 / 6 / 7",
+            gridArea: "2 / 6 / 6 / 7",
             background: "lightgreen",
             border: "2px solid green",
             display: "flex",
+            justifyContent: "center",
           }}
         >
-          <Typography alignSelf={"center"}>Another sidebar</Typography>
+          <Rightbar />
         </Box>
       </Box>
     </ThemeProvider>

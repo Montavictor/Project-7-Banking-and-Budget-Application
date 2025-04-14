@@ -93,7 +93,7 @@ function Deposit() {
       className="container"
       sx={{
         maxWidth: 500,
-        height: 300,
+        height: 310,
         mx: "auto",
         mt: 4,
         display: "flex",

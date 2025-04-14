@@ -91,6 +91,7 @@ function Deposit() {
     <Paper
       component="div"
       className="container"
+      elevation={8}
       sx={{
         maxWidth: 500,
         height: 310,

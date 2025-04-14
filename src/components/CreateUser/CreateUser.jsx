@@ -10,7 +10,6 @@ import {
   Typography,
   Stack,
   Divider,
-  InputAdornment,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import "./CreateUser.css";
@@ -123,7 +122,7 @@ function CreateUser() {
   return (
     <Stack
       direction={"column"}
-      sx={{ width: "100%", height: "100%" }}
+      sx={{ width: "95%", height: "100%", justifySelf: "center" }}
       className="createUser"
     >
       <Paper

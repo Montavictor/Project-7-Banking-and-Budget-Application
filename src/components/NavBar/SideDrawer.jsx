@@ -2,10 +2,7 @@ import * as React from "react";
 
 //Components
 import {
-  AppBar,
   Box,
-  Button,
-  CssBaseline,
   Drawer,
   Divider,
   List,
@@ -13,23 +10,20 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Paper,
   Toolbar,
-  Typography,
 } from "@mui/material";
 
 // Icons
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import GroupIcon from "@mui/icons-material/Group";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
-
-const drawerWidth = 213;
+import "./Topbar.css";
 
 export default function Sidebar({ setSelectedView }) {
   // user items
@@ -72,39 +66,19 @@ export default function Sidebar({ setSelectedView }) {
     }
   };
   return (
-    <Box sx={{ display: "flex", position: "absolute" }}>
+    <Box sx={{ display: "flex", position: "absolute", width: "100%" }}>
       <Drawer
+        elevation={6}
         sx={{
-          width: "100%",
-          flexShrink: 0,
           "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
+            width: 237,
           },
         }}
         variant="permanent"
         anchor="left"
       >
         <Toolbar />
-        <Button
-          onClick={() => setSelectedView("Users")}
-          startIcon={
-            <AccountBalanceIcon
-              sx={{ color: "#8a1c1c", transform: "scale(1.5)" }}
-            />
-          }
-          sx={{
-            display: "flex",
-            alignSelf: "center",
-            fontWeight: 800,
-            p: 2,
-            position: "absolute",
-          }}
-        >
-          <Typography color="#8a1c1c" variant="h5" sx={{ fontWeight: 800 }}>
-            Bankrupt
-          </Typography>
-        </Button>
+
         <Divider />
         <List>
           {listItems.map((items) => (

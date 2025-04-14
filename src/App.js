@@ -6,13 +6,13 @@ import { useState } from "react";
 import Deposit from "./components/Transactions/deposit";
 import Withdraw from "./components/Transactions/withraw";
 import Users from "./components/User/user";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Sidebar from "./components/NavBar/SideDrawer.jsx";
 import TopBar from "./components/NavBar/Topbar.jsx";
 import "./App.css";
 import Rightbar from "./components/NavBar/Rightbar.jsx";
-import Budget from './components/Budget/Budget.jsx'
+import Budget from "./components/Budget/Budget.jsx";
 
 // sample data if users is empty
 if (!localStorage.getItem("bankUsers")) {
@@ -46,8 +46,8 @@ function App() {
 
           height: "100vh",
           display: "grid",
-          gridTemplateColumns: "repeat(6, 1fr)",
-          gridTemplateRows: "0.5fr repeat(4, 1fr)",
+          gridTemplateColumns: "0.9fr repeat(4, 1fr) 0.9fr",
+          gridTemplateRows: "0.4fr repeat(4, 1fr)",
           gridColumnGap: 0,
           gridRowGap: 0,
         }}
@@ -56,7 +56,7 @@ function App() {
           className="sidebar-left"
           sx={{
             gridArea: "2 / 1 / 6 / 2",
-            background: "#f99",
+            width: "100%",
           }}
         >
           <Sidebar setSelectedView={setSelectedView} />
@@ -73,7 +73,6 @@ function App() {
           className="div3"
           sx={{
             gridArea: "2 / 2 / 6 / 6",
-            background: "#99f",
           }}
         >
           {/* {selectedView === "Dashboard" && <Dashboard />} */}
@@ -88,8 +87,6 @@ function App() {
           className="div4"
           sx={{
             gridArea: "2 / 6 / 6 / 7",
-            background: "lightgreen",
-            border: "2px solid green",
             display: "flex",
             justifyContent: "center",
           }}

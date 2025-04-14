@@ -1,3 +1,7 @@
 .containerbar {
   height: 100% !important;
 }
+
+.sidebar {
+  width: 100% !important;
+}

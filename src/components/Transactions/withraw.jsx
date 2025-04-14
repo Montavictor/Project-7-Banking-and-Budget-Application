@@ -4,7 +4,6 @@ import {
   Autocomplete,
   Box,
   Button,
-  Card,
   Paper,
   Snackbar,
   TextField,
@@ -104,6 +103,7 @@ function Withdraw() {
 
   return (
     <Paper
+      elevation={8}
       component="div"
       className="container"
       sx={{

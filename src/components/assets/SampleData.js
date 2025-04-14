@@ -44,5 +44,6 @@ export const sampleData = () => {
   ];
   //"transactions", JSON.stringify(transactions)
   localStorage.setItem("bankUsers", JSON.stringify(sampleUsers));
+
   return sampleUsers;
 };

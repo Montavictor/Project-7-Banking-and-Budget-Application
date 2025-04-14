@@ -134,6 +134,7 @@ function Transfer() {
 
   return (
     <Paper
+      elevation={8}
       component="div"
       className="container"
       sx={{
@@ -210,7 +211,7 @@ function Transfer() {
             options={options}
             sx={{ mb: 2 }}
             getOptionLabel={(user) =>
-              (toggleMode ? user.name : String(user.dateCreated)) || ""
+              toggleMode ? user.name : String(user.dateCreated)
             }
             value={form.sender}
             onChange={handleChange("sender")}

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Box,
-  Grid,
   Divider,
   Paper,
   TableContainer,
@@ -27,6 +26,7 @@ function Users() {
     (a, b) => new Date(Number(b.dateCreated)) - new Date(Number(a.dateCreated))
   );
   const totalAmount = users.reduce((sum, user) => sum + user.balance, 0);
+
   const amountFormat = new Intl.NumberFormat("en-PH", {
     style: "currency",
     currency: "PHP",
@@ -49,16 +49,13 @@ function Users() {
   };
 
   return (
-    <Box>
-      <Stack
-        direction={"row"}
-        gap={2}
-        sx={{ border: "2px solid green", justifyContent: "center", mt: 1 }}
-      >
+    <Box sx={{ mt: 4 }}>
+      <Stack direction={"row"} gap={2} sx={{ justifyContent: "center", mt: 1 }}>
         <Stack
           component={Paper}
           direction={"row"}
-          sx={{ width: 220, height: 110, alignItems: "center", p: 1 }}
+          elevation={6}
+          sx={{ width: 220, height: 130, alignItems: "center", p: 1 }}
         >
           <GroupIcon sx={{ color: "primary.dark", fontSize: 70, p: 1 }} />
           <Divider orientation="vertical" flexItem />
@@ -82,7 +79,8 @@ function Users() {
         <Stack
           component={Paper}
           direction={"row"}
-          sx={{ width: 250, height: 110, alignItems: "center", p: 1 }}
+          elevation={6}
+          sx={{ width: 290, height: 130, alignItems: "center", p: 1 }}
         >
           <SavingsIcon sx={{ color: "primary.dark", fontSize: 70, p: 1 }} />
           <Divider orientation="vertical" flexItem />
@@ -105,8 +103,9 @@ function Users() {
         </Stack>
         <Stack
           component={Paper}
+          elevation={6}
           direction={"row"}
-          sx={{ width: 220, height: 110, alignItems: "center", p: 1 }}
+          sx={{ width: 220, height: 130, alignItems: "center", p: 1 }}
         >
           <GroupIcon sx={{ color: "primary.dark", fontSize: 70, p: 1 }} />
           <Divider orientation="vertical" flexItem />
@@ -130,9 +129,9 @@ function Users() {
       </Stack>
       <TableContainer
         component={Paper}
-        elevation={4}
+        elevation={9}
         sx={{
-          mt: 1,
+          mt: 3,
           minWidth: "400px",
           maxWidth: "95%",
           maxHeight: "350px",

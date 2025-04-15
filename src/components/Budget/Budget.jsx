@@ -143,8 +143,8 @@ function Budget() {
               </Typography>
             </Paper>
             <Box sx={{display: "flex", justifyContent:"space-between", p: 1}}>
-              <p>User: <span className="bold">{currentName}</span></p>
-              <p>Account Id: <span className="bold">{currentId}</span></p>
+              <Typography variant='overline'>User: <span className="bold">{currentName}</span></Typography>
+              <Typography variant='overline'>Account Id: <span className="bold">{currentId}</span></Typography>
             </Box>
             <Box sx={{
               p: 1,
@@ -153,8 +153,8 @@ function Budget() {
               justifyContent: "center",
               alignContent: "center"
             }}>
-              <Typography variant="subtitle" sx={{textAlign:"center"}}>Starting Budget: <span className="budgetClass">{currentBudget}</span></Typography>
-              <Typography variant="subtitle" sx={{textAlign:"center"}}>Budget - Expenses: <span className={totalClassName}>{total}</span></Typography>
+              <Typography variant="overline" sx={{textAlign:"center"}}>Starting Budget: <span className="budgetClass">{currentBudget}</span></Typography>
+              <Typography variant="overline" sx={{textAlign:"center"}}>Budget - Expenses: <span className={totalClassName}>{total}</span></Typography>
             </Box>
               <Box sx={{display:"flex", justifyContent:"center", p: 1, m:1}}>
                 <select onChange={handleSelectorChange} className="budgetUserSelector">
@@ -178,10 +178,10 @@ function Budget() {
                   justifyContent: "space-between",
                   mb: 2
                   }}>
-                  <Typography variant="subtitle">
+                  <Typography variant="overline">
                     EXPENSE:
                   </Typography>  
-                    <Typography variant="subtitle" sx={{mr: "20%"}}>
+                    <Typography variant="overline" sx={{mr: "20%"}}>
                       COST:
                     </Typography>        
                 </Box>

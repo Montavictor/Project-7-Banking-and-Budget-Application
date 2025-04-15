@@ -13,12 +13,17 @@ import TopBar from "./components/NavBar/Topbar.jsx";
 import "./App.css";
 import Rightbar from "./components/NavBar/Rightbar.jsx";
 import Budget from "./components/Budget/Budget.jsx";
+import Dashboard from "./components/Dashboard/Dashboard.jsx";
 
 // sample data if users is empty
 if (!localStorage.getItem("bankUsers")) {
   sampleData();
 }
 function App() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
   const [selectedView, setSelectedView] = useState("Users");
   const theme = createTheme({
     palette: {
@@ -39,7 +44,6 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Box
-        container
         className="parent"
         sx={{
           background: "#fafafa",
@@ -59,16 +63,15 @@ function App() {
           className="sidebar-left"
           sx={{
             gridArea: "2 / 1 / 6 / 2",
-            display: {
-              xs: "none",
-              md: "none",
-              lg: "block",
-              xl: "block",
-            },
             width: "100%",
+            display: { xs: "none", sm: "none", md: "block" },
           }}
         >
-          <Sidebar setSelectedView={setSelectedView} />
+          <Sidebar
+            setSelectedView={setSelectedView}
+            mobileOpen={mobileOpen}
+            handleDrawerToggle={handleDrawerToggle}
+          />
         </Box>
         <Box
           className="topbar"
@@ -76,7 +79,10 @@ function App() {
             gridArea: "1 / 1 / 2 / 7",
           }}
         >
-          <TopBar setSelectedView={setSelectedView} />
+          <TopBar
+            setSelectedView={setSelectedView}
+            handleDrawerToggle={handleDrawerToggle}
+          />
         </Box>
         <Box
           className="div3"
@@ -98,6 +104,7 @@ function App() {
             gridArea: "2 / 6 / 6 / 7",
             display: {
               xs: "none",
+              sm: "none",
               md: "none",
               lg: "block",
               xl: "block",

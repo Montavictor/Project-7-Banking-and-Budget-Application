@@ -10,21 +10,18 @@ import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
 import { Button } from "@mui/material";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-
 import Avatar from "@mui/material/Avatar";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
-
 import Tooltip from "@mui/material/Tooltip";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import MenuIcon from "@mui/icons-material/Menu";
 import "./Topbar.css";
 
 const Search = styled("div")(({ theme }) => ({
@@ -67,7 +64,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Topbar({ setSelectedView }) {
+export default function Topbar({ setSelectedView, handleDrawerToggle }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -108,11 +105,20 @@ export default function Topbar({ setSelectedView }) {
         sx={{ background: "#8a1c1c" }}
       >
         <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ display: { xs: "block", md: "block", lg: "none" }, mr: 2 }}
+          >
+            <MenuIcon sx={{ color: "#fafafa", transform: "scale(1.5)" }} />
+          </IconButton>
           <Button
             onClick={() => setSelectedView("Users")}
             startIcon={
               <AccountBalanceIcon
-                sx={{ color: "#fafafa", transform: "scale(1.5)" }}
+                sx={{ color: "#fafafa", transform: "scale(1.5)", p: 1 }}
               />
             }
             sx={{
@@ -122,7 +128,20 @@ export default function Topbar({ setSelectedView }) {
               p: 2,
             }}
           >
-            <Typography color="#fafafa" variant="h5" sx={{ fontWeight: 800 }}>
+            <Typography
+              color="#fafafa"
+              variant="h5"
+              sx={{
+                fontWeight: 800,
+                display: {
+                  xs: "none",
+                  sm: "none",
+                  md: "block",
+                  lg: "block",
+                  xl: "block",
+                },
+              }}
+            >
               Bankrupt
             </Typography>
           </Button>

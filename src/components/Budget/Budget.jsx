@@ -1,34 +1,23 @@
 import { useState, useEffect } from "react";
 import NewBudgetDialog from "./NewBudgetDialog";
 import AddTaskDialog from "./AddTaskDialog";
-import Button from "@mui/material/Button";
+import { Button, Paper, Stack, Typography, Box } from "@mui/material";
 import "./Budget.css";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function Budget() {
-  const usersTest = [
-    { dateCreated: Date.now() - 1000 * 60 * 60 * 24 * 7, name: "joshua" },
-    { dateCreated: Date.now() - 1000 * 60 * 60 * 24 * 5, name: "mike" },
-    { dateCreated: Date.now() - 1000 * 60 * 60 * 24 * 6, name: "sam" },
-    { dateCreated: Date.now() - 1000 * 60 * 60 * 24 * 2, name: "jinggoy" },
-  ];
-
   const [currentId, setCurrentId] = useState("");
   const [currentBudget, setCurrentBudget] = useState(0);
   const [itemList, setItemList] = useState([]);
-  // date created // budget // budgetItems
   const [budgetList, setBudgetList] = useState([]);
-  // date created
-  // const [users, setUsers] = useState(() => {
-  //     return JSON.parse(localStorage.getItem("bankUsers") || []);
-  //   });
-
-  const [userList, setUserList] = useState(usersTest);
+  const [userList, setUserList] = useState(() => {
+    return JSON.parse(localStorage.getItem("bankUsers") || []);
+  });
   const [currentName, setCurrentName] = useState("");
   const [total, setTotal] = useState(0);
   const [totalClassName, setTotalClassName] = useState("green");
 
   const checkExistingBudget = (dateId) => {
-    // const userCheck = budgetList.filter((user) => user.dateCreated === dateIdI
     setItemList([]);
     let userCheck = budgetList;
     const idCheck = dateId;
@@ -60,11 +49,11 @@ function Budget() {
       }
       setTotal(sum);
       if (Number(sum) > 0) {
-        setTotalClassName("green");
+        setTotalClassName("totalClass green");
       } else if (Number(sum) < 0) {
-        setTotalClassName("red");
+        setTotalClassName("totalClass red");
       } else {
-        setTotalClassName("");
+        setTotalClassName("totalClass");
       }
     }, [currentBudget, itemList]);
   };
@@ -80,12 +69,36 @@ function Budget() {
     const { itemList } = props;
     return itemList.map((item) => {
       return (
-        <div key={item.itemId}>
-          Expense: {item.name} Cost: {item.cost} Expense Id: {item.itemId}
-          <Button onClick={() => handleDeleteItem(item.itemId)}>
-            Delete Item
-          </Button>
-        </div>
+        <Box
+          key={item.itemId}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            p: 1,
+            alignItems: "center",
+            borderTop: "lightgrey solid 1px",
+          }}
+        >
+          <span className="bold">{item.name} </span>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Typography sx={{ mr: "16px" }}>
+              <span className="bold">{item.cost}</span>
+            </Typography>
+            <Button
+              variant="contained"
+              startIcon={<DeleteIcon />}
+              onClick={() => handleDeleteItem(item.itemId)}
+            >
+              Delete Item
+            </Button>
+          </Box>
+        </Box>
       );
     });
   };
@@ -103,37 +116,118 @@ function Budget() {
   };
 
   return (
-    <div className="Budget">
-      <p>Inital Budget: {currentBudget}</p>
-      <p>User: {currentName}</p>
-      <p>User Created On: {currentId}</p>
-      <p>
-        Current Budget - Expenses:{" "}
-        <span className={totalClassName}>{total}</span>
-      </p>
-      <select onChange={handleSelectorChange}>
-        <option>Select</option>
-        <SelectOptions users={userList} />
-      </select>
-      <NewBudgetDialog
-        budgetList={budgetList}
-        setBudgetList={setBudgetList}
-        currentId={currentId}
-        setCurrentBudget={setCurrentBudget}
-        itemList={itemList}
-      />
-      <AddTaskDialog
-        currentId={currentId}
-        setBudgetList={setBudgetList}
-        budgetList={budgetList}
-        currentBudget={currentBudget}
-        itemList={itemList}
-        setItemList={setItemList}
-      />
-      <DisplayItemList itemList={itemList} />
-      {/* display total */}
-      <UpdateTotal />
-    </div>
+    <Stack
+      spacing={2}
+      sx={{ width: "95%", height: "100%", justifySelf: "center" }}
+    >
+      <Paper
+        elevation={4}
+        sx={{
+          width: "100%",
+          height: "auto",
+          maxHeight: "100%",
+          overflowY: "scroll",
+          overflowX: "hidden",
+        }}
+      >
+        <Paper
+          sx={{
+            p: 1,
+            display: "flex",
+            flexDirection: "column",
+            background: "#c62828",
+          }}
+        >
+          <Typography variant="outline" color="#ffff" sx={{ fontWeight: 700 }}>
+            Budget App
+          </Typography>
+          <Typography
+            variant="subtitle2"
+            sx={{ fontSize: "12px" }}
+            color="secondary"
+          >
+            Manage Your Expenses Here
+          </Typography>
+        </Paper>
+        <Box sx={{ display: "flex", justifyContent: "space-between", p: 1 }}>
+          <p>
+            User: <span className="bold">{currentName}</span>
+          </p>
+          <p>
+            Account Id: <span className="bold">{currentId}</span>
+          </p>
+        </Box>
+        <Box
+          sx={{
+            p: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+        >
+          <Typography variant="subtitle" sx={{ textAlign: "center" }}>
+            Starting Budget:{" "}
+            <span className="budgetClass">{currentBudget}</span>
+          </Typography>
+          <Typography variant="subtitle" sx={{ textAlign: "center" }}>
+            Budget - Expenses: <span className={totalClassName}>{total}</span>
+          </Typography>
+        </Box>
+        <Box sx={{ display: "flex", justifyContent: "center", p: 1, m: 1 }}>
+          <select
+            onChange={handleSelectorChange}
+            className="budgetUserSelector"
+          >
+            <option>Select User</option>
+            <SelectOptions users={userList} />
+          </select>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-evenly",
+          }}
+        >
+          <NewBudgetDialog
+            budgetList={budgetList}
+            setBudgetList={setBudgetList}
+            currentId={currentId}
+            setCurrentBudget={setCurrentBudget}
+            itemList={itemList}
+          />
+          <AddTaskDialog
+            currentId={currentId}
+            setBudgetList={setBudgetList}
+            budgetList={budgetList}
+            currentBudget={currentBudget}
+            itemList={itemList}
+            setItemList={setItemList}
+          />
+        </Box>
+        <Box
+          sx={{
+            p: 1,
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              mb: 2,
+            }}
+          >
+            <Typography variant="subtitle">EXPENSE:</Typography>
+            <Typography variant="subtitle" sx={{ mr: "20%" }}>
+              COST:
+            </Typography>
+          </Box>
+          <DisplayItemList itemList={itemList} />
+        </Box>
+        <UpdateTotal />
+      </Paper>
+    </Stack>
   );
 }
 

@@ -47,7 +47,7 @@ function CreateUser() {
       setError("Name cannot contain special characters");
       return;
     } else if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError("Please enter a valid email address");
+      setError("Please enter a valid email");
       return;
     } else if (!address || address.trim() === "") {
       setError("Address is required");

@@ -25,12 +25,20 @@ import PaymentsIcon from "@mui/icons-material/Payments";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import "./Topbar.css";
 
-export default function Sidebar({ setSelectedView }) {
+export default function Sidebar({
+  setSelectedView,
+  mobileOpen,
+  handleDrawerToggle,
+}) {
   // user items
   const listItems = [
+    // {
+    //   text: "Dashboard",
+    //   icon: <DashboardIcon />,
+    // },
     {
-      text: "Dashboard",
-      icon: <DashboardIcon />,
+      text: "Budget",
+      icon: <AddCardIcon />,
     },
     {
       text: "Users",
@@ -39,10 +47,6 @@ export default function Sidebar({ setSelectedView }) {
     {
       text: "Create User",
       icon: <GroupAddIcon />,
-    },
-    {
-      text: "Budget",
-      icon: <AddCardIcon />,
     },
   ];
   // transaction items
@@ -65,11 +69,65 @@ export default function Sidebar({ setSelectedView }) {
       setSelectedView(itemText);
     }
   };
+  const renderDrawerContent = () => (
+    <Box>
+      <Toolbar />
+      <Divider />
+      <List>
+        {listItems.map((items) => (
+          <ListItem key={items.text} disablePadding>
+            <ListItemButton onClick={() => handleListItemClick(items.text)}>
+              <ListItemIcon>{items.icon}</ListItemIcon>
+              <ListItemText primary={items.text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {transItems.map((items) => (
+          <ListItem key={items.text} disablePadding>
+            <ListItemButton onClick={() => handleListItemClick(items.text)}>
+              <ListItemIcon>{items.icon}</ListItemIcon>
+              <ListItemText primary={items.text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Box sx={{ mt: "auto" }}>
+        <Divider />
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>{<InboxIcon />}</ListItemIcon>
+            <ListItemText primary={"Logout"} />
+          </ListItemButton>
+        </ListItem>
+      </Box>
+    </Box>
+  );
+
   return (
     <Box sx={{ display: "flex", position: "absolute", width: "100%" }}>
       <Drawer
+        variant="temporary"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
         elevation={6}
         sx={{
+          display: { xs: "block", sm: "block", md: "block", lg: "none" },
+          "& .MuiDrawer-paper": {
+            width: 237,
+          },
+        }}
+        anchor="left"
+      >
+        {renderDrawerContent()}
+      </Drawer>
+
+      <Drawer
+        elevation={6}
+        sx={{
+          display: { xs: "none", sm: "none", md: "none", lg: "block" },
           "& .MuiDrawer-paper": {
             width: 237,
           },
@@ -77,39 +135,7 @@ export default function Sidebar({ setSelectedView }) {
         variant="permanent"
         anchor="left"
       >
-        <Toolbar />
-
-        <Divider />
-        <List>
-          {listItems.map((items) => (
-            <ListItem key={items.text} disablePadding>
-              <ListItemButton onClick={() => handleListItemClick(items.text)}>
-                <ListItemIcon>{items.icon}</ListItemIcon>
-                <ListItemText primary={items.text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {transItems.map((items) => (
-            <ListItem key={items.text} disablePadding>
-              <ListItemButton onClick={() => handleListItemClick(items.text)}>
-                <ListItemIcon>{items.icon}</ListItemIcon>
-                <ListItemText primary={items.text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Box sx={{ mt: "auto" }}>
-          <Divider />
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{<InboxIcon />}</ListItemIcon>
-              <ListItemText primary={"Logout"} />
-            </ListItemButton>
-          </ListItem>
-        </Box>
+        {renderDrawerContent()}
       </Drawer>
 
       <Toolbar />

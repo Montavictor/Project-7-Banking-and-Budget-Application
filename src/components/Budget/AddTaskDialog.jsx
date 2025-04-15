@@ -7,6 +7,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Fragment, useState } from "react";
 import { Paper } from "@mui/material";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 export default function AddTaskDialog(props) {
   const {
@@ -29,7 +30,13 @@ export default function AddTaskDialog(props) {
 
   return (
     <Fragment>
-      <Button disabled={currentId === ""} onClick={handleClickOpen}>
+      <Button
+        variant="contained"
+        sx={{ width: "25%" }}
+        endIcon={<AddCircleOutlineIcon />}
+        disabled={currentId === ""}
+        onClick={handleClickOpen}
+      >
         Add New Expense
       </Button>
       <Dialog

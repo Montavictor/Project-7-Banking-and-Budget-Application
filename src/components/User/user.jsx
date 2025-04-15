@@ -132,9 +132,10 @@ function Users() {
         elevation={9}
         sx={{
           mt: 3,
-          minWidth: "400px",
+          minWidth: "200px",
           maxWidth: "95%",
-          maxHeight: "350px",
+          maxHeight: "450px",
+          minHeight: "200px",
           overflowY: "auto",
           justifySelf: "center",
         }}

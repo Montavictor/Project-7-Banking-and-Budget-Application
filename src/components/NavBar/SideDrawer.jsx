@@ -11,12 +11,14 @@ import {
   ListItemIcon,
   ListItemText,
   Paper,
+  Button,
+  Typography,
   Toolbar,
 } from "@mui/material";
 
 // Icons
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import GroupIcon from "@mui/icons-material/Group";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import AddCardIcon from "@mui/icons-material/AddCard";
@@ -72,6 +74,42 @@ export default function Sidebar({
   const renderDrawerContent = () => (
     <Box>
       <Toolbar />
+
+      <Button
+        onClick={() => setSelectedView("Users")}
+        startIcon={
+          <AccountBalanceIcon
+            sx={{
+              color: "#8a1c1c",
+              transform: "scale(1.5)",
+              p: 1,
+            }}
+          />
+        }
+        sx={{
+          display: {
+            xs: "flex",
+            sm: "flex",
+            md: "flex",
+            lg: "none",
+            xl: "none",
+          },
+
+          alignSelf: "center",
+          fontWeight: 800,
+          p: 2,
+        }}
+      >
+        <Typography
+          color="#8a1c1c"
+          variant="h5"
+          sx={{
+            fontWeight: 800,
+          }}
+        >
+          Bankrupt
+        </Typography>
+      </Button>
       <Divider />
       <List>
         {listItems.map((items) => (

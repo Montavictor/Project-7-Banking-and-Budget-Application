@@ -16,6 +16,15 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import GroupIcon from "@mui/icons-material/Group";
 import SavingsIcon from "@mui/icons-material/Savings";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+
+const VISIBLE_FIELDS = [
+  "title",
+  "company",
+  "director",
+  "year",
+  "cinematicUniverse",
+];
 
 function Users() {
   const [users, setUsers] = useState(() => {
@@ -49,8 +58,24 @@ function Users() {
   };
 
   return (
-    <Box sx={{ mt: 4 }}>
-      <Stack direction={"row"} gap={2} sx={{ justifyContent: "center", mt: 1 }}>
+    <Stack
+      direction={"column"}
+      sx={{
+        mt: 4,
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+      }}
+    >
+      <Stack
+        direction={{
+          sm: "column",
+          md: "column",
+          lg: "row",
+        }}
+        gap={2}
+        sx={{ justifyContent: "center", mt: 1, alignItems: "center" }}
+      >
         <Stack
           component={Paper}
           direction={"row"}
@@ -78,7 +103,7 @@ function Users() {
         </Stack>
         <Stack
           component={Paper}
-          direction={"row"}
+          direction={""}
           elevation={6}
           sx={{ width: 290, height: 130, alignItems: "center", p: 1 }}
         >
@@ -132,10 +157,10 @@ function Users() {
         elevation={9}
         sx={{
           mt: 3,
-          minWidth: "200px",
           maxWidth: "95%",
           maxHeight: "450px",
           minHeight: "200px",
+          overflowX: "auto",
           overflowY: "auto",
           justifySelf: "center",
         }}
@@ -244,7 +269,7 @@ function Users() {
           </TableBody>
         </Table>
       </TableContainer>
-    </Box>
+    </Stack>
   );
 }
 export default Users;

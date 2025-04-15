@@ -90,7 +90,7 @@ function App() {
             gridArea: "2 / 2 / 6 / 6",
           }}
         >
-          {selectedView === "Dashboard" && <Dashboard />}
+          {/* {selectedView === "Dashboard" && <Dashboard />} */}
           {selectedView === "Users" && <Users />}
           {selectedView === "Create User" && <CreateUser />}
           {selectedView === "Budget" && <Budget />}

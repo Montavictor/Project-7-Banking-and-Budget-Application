@@ -27,7 +27,7 @@ export default function Rightbar() {
   }
   function updateDate() {
     const now = new Date();
-    const day = now.getDay();
+    const day = now.getDate();
     const month = now.getMonth();
     const stringMonth = [
       "January",

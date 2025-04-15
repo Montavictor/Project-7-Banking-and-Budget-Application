@@ -43,10 +43,13 @@ function App() {
         className="parent"
         sx={{
           background: "#fafafa",
-
           height: "100vh",
           display: "grid",
-          gridTemplateColumns: "0.9fr repeat(4, 1fr) 0.9fr",
+          gridTemplateColumns: {
+            md: "0.5fr repeat(4, 1fr) 0.5fr",
+            lg: "0.9fr repeat(4, 1fr) 0.9fr",
+            xl: "repeat(6, 1fr)",
+          },
           gridTemplateRows: "0.4fr repeat(4, 1fr)",
           gridColumnGap: 0,
           gridRowGap: 0,
@@ -56,6 +59,12 @@ function App() {
           className="sidebar-left"
           sx={{
             gridArea: "2 / 1 / 6 / 2",
+            display: {
+              xs: "none",
+              md: "none",
+              lg: "block",
+              xl: "block",
+            },
             width: "100%",
           }}
         >
@@ -87,7 +96,12 @@ function App() {
           className="div4"
           sx={{
             gridArea: "2 / 6 / 6 / 7",
-            display: "flex",
+            display: {
+              xs: "none",
+              md: "none",
+              lg: "block",
+              xl: "block",
+            },
             justifyContent: "center",
           }}
         >

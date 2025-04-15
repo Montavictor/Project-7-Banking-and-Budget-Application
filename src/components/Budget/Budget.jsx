@@ -150,12 +150,12 @@ function Budget() {
           </Typography>
         </Paper>
         <Box sx={{ display: "flex", justifyContent: "space-between", p: 1 }}>
-          <p>
+          <Typography variant="overline">
             User: <span className="bold">{currentName}</span>
-          </p>
-          <p>
+          </Typography>
+          <Typography variant="overline">
             Account Id: <span className="bold">{currentId}</span>
-          </p>
+          </Typography>
         </Box>
         <Box
           sx={{
@@ -166,11 +166,11 @@ function Budget() {
             alignContent: "center",
           }}
         >
-          <Typography variant="subtitle" sx={{ textAlign: "center" }}>
+          <Typography variant="overline" sx={{ textAlign: "center" }}>
             Starting Budget:{" "}
             <span className="budgetClass">{currentBudget}</span>
           </Typography>
-          <Typography variant="subtitle" sx={{ textAlign: "center" }}>
+          <Typography variant="overline" sx={{ textAlign: "center" }}>
             Budget - Expenses: <span className={totalClassName}>{total}</span>
           </Typography>
         </Box>
@@ -218,8 +218,8 @@ function Budget() {
               mb: 2,
             }}
           >
-            <Typography variant="subtitle">EXPENSE:</Typography>
-            <Typography variant="subtitle" sx={{ mr: "20%" }}>
+            <Typography variant="overline">EXPENSE:</Typography>
+            <Typography variant="overline" sx={{ mr: "20%" }}>
               COST:
             </Typography>
           </Box>

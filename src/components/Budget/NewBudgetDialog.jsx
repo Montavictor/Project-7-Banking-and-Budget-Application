@@ -6,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Fragment, useState } from 'react';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 
 export default function NewBudgetDialog(props) {
     const { budgetList, setBudgetList, currentId, setCurrentBudget, itemList } = props;
@@ -21,7 +22,7 @@ export default function NewBudgetDialog(props) {
 
     return (
         <Fragment>
-            <Button disabled={currentId===''} onClick={handleClickOpen}>
+            <Button variant="contained" sx={{width:"25%"}}endIcon={<CurrencyExchangeIcon />} disabled={currentId===''} onClick={handleClickOpen}>
                 Edit Budget
             </Button>
             <Dialog open={open} onClose={handleClose}

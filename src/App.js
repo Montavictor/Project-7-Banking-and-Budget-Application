@@ -13,6 +13,7 @@ import TopBar from "./components/NavBar/Topbar.jsx";
 import "./App.css";
 import Rightbar from "./components/NavBar/Rightbar.jsx";
 import Budget from "./components/Budget/Budget.jsx";
+import Dashboard from "./components/Dashboard/Dashboard.jsx";
 
 // sample data if users is empty
 if (!localStorage.getItem("bankUsers")) {
@@ -75,7 +76,7 @@ function App() {
             gridArea: "2 / 2 / 6 / 6",
           }}
         >
-          {/* {selectedView === "Dashboard" && <Dashboard />} */}
+          {selectedView === "Dashboard" && <Dashboard />}
           {selectedView === "Users" && <Users />}
           {selectedView === "Create User" && <CreateUser />}
           {selectedView === "Budget" && <Budget />}

@@ -3,12 +3,6 @@ import {
   Box,
   Divider,
   Paper,
-  TableContainer,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
   Typography,
   IconButton,
   Stack,
@@ -17,24 +11,23 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import GroupIcon from "@mui/icons-material/Group";
 import SavingsIcon from "@mui/icons-material/Savings";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-
-const VISIBLE_FIELDS = [
-  "title",
-  "company",
-  "director",
-  "year",
-  "cinematicUniverse",
-];
+import "./user.css";
 
 function Users() {
   const [users, setUsers] = useState(() => {
-    return JSON.parse(localStorage.getItem("bankUsers") || []);
+    const dataUsers = JSON.parse(localStorage.getItem("bankUsers") || "[]");
+    console.log("Parsed users:", dataUsers);
+
+    return dataUsers;
   });
 
-  const recentUsers = users.sort(
+  const recentUsers = [...users].sort(
     (a, b) => new Date(Number(b.dateCreated)) - new Date(Number(a.dateCreated))
   );
-  const totalAmount = users.reduce((sum, user) => sum + user.balance, 0);
+  const totalAmount = users.reduce(
+    (sum, user) => sum + Number(user.balance),
+    0
+  );
 
   const amountFormat = new Intl.NumberFormat("en-PH", {
     style: "currency",
@@ -53,10 +46,70 @@ function Users() {
     setUsers(updateUsers);
     localStorage.setItem("bankUsers", JSON.stringify(updateUsers));
   };
+
   const handleDate = (date) => {
     return new Date(Number(date)).toLocaleDateString();
   };
 
+  const columns = [
+    {
+      field: "dateCreated",
+      headerName: "ID",
+      flex: 1,
+      minWidth: 150,
+      editable: false,
+      background: "#c62828",
+    },
+    {
+      field: "name",
+      headerName: "Name",
+      flex: 1,
+      minWidth: 250,
+      editable: true,
+      background: "#c62828",
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      flex: 1.5,
+      minWidth: 200,
+      editable: true,
+      background: "#c62828",
+    },
+    {
+      field: "balance",
+      headerName: "Balance",
+      flex: 1.5,
+      minWidth: 150,
+      editable: false,
+      background: "#c62828",
+      valueFormatter: (params) =>
+        new Intl.NumberFormat("en-PH", {
+          style: "currency",
+          currency: "PHP",
+        }).format(params),
+    },
+    {
+      field: "actions",
+      headerName: "",
+      minWidth: 50,
+      editable: false,
+      filterable: false,
+      sortable: false,
+      background: "#c62828",
+      renderCell: (params) => (
+        <Stack>
+          <IconButton
+            onClick={() => handleDelete(params.row.dateCreated)}
+            size="small"
+            aria-label="delete"
+          >
+            <DeleteIcon fontSize="small" />
+          </IconButton>
+        </Stack>
+      ),
+    },
+  ];
   return (
     <Stack
       direction={"column"}
@@ -152,123 +205,75 @@ function Users() {
           </Stack>
         </Stack>
       </Stack>
-      <TableContainer
+      <Box
         component={Paper}
-        elevation={9}
+        elevation={6}
         sx={{
+          height: 450,
+          width: "85%",
           mt: 3,
-          maxWidth: "95%",
-          maxHeight: "450px",
-          minHeight: "200px",
-          overflowX: "auto",
-          overflowY: "auto",
-          justifySelf: "center",
+          bgcolor: "white",
         }}
       >
-        <Table aria-label="user-table">
-          <TableHead>
-            <TableRow sx={{ background: "#c62828" }}>
-              <TableCell
-                sx={{
-                  color: "white",
-                  fontSize: "14px",
-                  fontWeight: "bold",
-                  width: "90px",
-                  textIndent: 7,
-                  p: 1.3,
-                }}
-              >
-                ID
-              </TableCell>
-              <TableCell
-                sx={{
-                  color: "white",
-                  fontSize: "12px",
-                  fontWeight: "bold",
-                  textIndent: 8,
-                  p: 1.3,
-                }}
-              >
-                Name
-              </TableCell>
-              <TableCell
-                sx={{
-                  color: "white",
-                  fontSize: "12px",
-                  fontWeight: "bold",
-                  p: 1.3,
-                  pl: 2,
-                }}
-              >
-                Email
-              </TableCell>
-              <TableCell
-                sx={{
-                  color: "white",
-                  fontSize: "12px",
-                  fontWeight: "bold",
-                  p: 1.3,
-                  pl: 2,
-                }}
-              >
-                Balance
-              </TableCell>
-              <TableCell
-                sx={{
-                  color: "white",
-                  fontSize: "12px",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  width: "40px",
-                  p: 1.3,
-                  pl: 2,
-                }}
-              >
-                Date Created
-              </TableCell>
-              <TableCell
-                sx={{
-                  width: "10px",
-                  color: "white",
-                  fontSize: "14px",
-                  fontWeight: "bold",
-                  p: 1.3,
-                  pl: 2,
-                }}
-              ></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {recentUsers.map((user, index) => (
-              <TableRow
-                key={index}
-                sx={{
-                  backgroundColor: index % 2 === 0 ? "white" : "#ffebee",
-                  "&:last-child td, &:last-child th": { border: 0 },
-                }}
-              >
-                <TableCell>{user.dateCreated}</TableCell>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{handleBalance(user.balance)}</TableCell>
-                <TableCell sx={{ textAlign: "center", width: "90px" }}>
-                  {handleDate(user.dateCreated)}
-                </TableCell>
-
-                <TableCell>
-                  <IconButton
-                    onClick={() => handleDelete(user)}
-                    size="small"
-                    aria-label="delete"
-                  >
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+        <DataGrid
+          sx={{
+            "& .MuiDataGrid-cell": {
+              color: "#444",
+              fontSize: 15,
+            },
+            "& .MuiDataGrid-row:hover": {
+              backgroundColor: "#ffebee",
+            },
+            "& .MuiDataGrid-row.Mui-selected": {
+              backgroundColor: "#d1c4e9",
+            },
+            "& .MuiDataGrid-columnHeader": {
+              backgroundColor: "#c62828",
+              color: "#fafafa",
+              fontSize: 16,
+              fontWeight: "bold",
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "600",
+            },
+            "& .MuiDataGrid-columnHeadersTitleContainer": {
+              backgroundColor: "#c62828 !important",
+            },
+            "& .MuiDataGrid-sortIcon": {
+              color: "#fafafa",
+              "&:hover": {
+                background: "#d15353",
+                opacity: 0.9,
+                borderRadius: "50%",
+              },
+            },
+            "& .MuiDataGrid-menuIconButton": {
+              color: "#fafafa",
+              "&:hover": {
+                background: "#d15353",
+                opacity: 0.9,
+              },
+            },
+          }}
+          rows={recentUsers}
+          columns={columns}
+          getRowId={(row) => row.dateCreated}
+          components={{ Toolbar: GridToolbar }}
+          disableRowSelectionOnClick
+          pageSizeOptions={[5, 10, 25, 100]}
+          processRowUpdate={(updateRow, oldRow) => {
+            const updateRows = users.map((row) =>
+              row.dateCreated === oldRow.dateCreated ? updateRow : row
+            );
+            setUsers(updateRows);
+            localStorage.setItem("bankUsers", JSON.stringify(updateRows));
+            return updateRow;
+          }}
+          onProcessRowUpdateError={(error) => {
+            console.error("Update error", error);
+          }}
+        />
+      </Box>
     </Stack>
   );
 }

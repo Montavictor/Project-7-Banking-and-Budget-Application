@@ -33,7 +33,7 @@ export const sampleData = () => {
           ).toISOString(),
         },
         {
-          type: "withraw",
+          type: "withdraw",
           amount: 2500,
           transactionDate: new Date(
             Date.now() - 1000 * 60 * 60 * 24 * 1

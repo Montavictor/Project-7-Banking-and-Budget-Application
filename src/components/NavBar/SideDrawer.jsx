@@ -26,6 +26,7 @@ import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import "./Topbar.css";
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 export default function Sidebar({
   setSelectedView,
@@ -34,10 +35,10 @@ export default function Sidebar({
 }) {
   // user items
   const listItems = [
-    // {
-    //   text: "Dashboard",
-    //   icon: <DashboardIcon />,
-    // },
+    {
+      text: "Dashboard",
+      icon: <DashboardIcon />,
+    },
     {
       text: "Budget",
       icon: <AddCardIcon />,

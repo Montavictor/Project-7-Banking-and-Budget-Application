@@ -40,15 +40,15 @@ export default function Dashboard() {
     }, []);
   }
   
-  const findTransfers = userList.map(
+  const findTransfers = userList.flatMap(
     user => user.transactions.filter(
       transaction => transaction.type === "transfer"))
 
-  const findWithdrawals = userList.map(
+  const findWithdrawals = userList.flatMap(
     user => user.transactions.filter(
       transaction => transaction.type === "withdraw"))
 
-  const findDeposits = userList.map(
+  const findDeposits = userList.flatMap(
     user => user.transactions.filter(
       transaction => transaction.type === "deposit")
     )
@@ -105,7 +105,7 @@ export default function Dashboard() {
           sx={{ textAlign: "center", fontSize: "2rem" , pt: 0, pb: 0}}
         >
           <p>
-            {hours}:{minutes}:{seconds}
+            {hours}:{minutes}:{seconds} am
           </p>
         </Typography>
       </Box>
@@ -113,7 +113,7 @@ export default function Dashboard() {
         <Paper sx={{ width: "30%", height: "100%"}} elevation={2}>
           <Box sx={{ pt: 1, pr: 2 }}>
             <Typography variant="h3" color="primary" sx={{ textAlign: "right" }}>
-              {findTransactions.length}
+              {Number(findDeposits.length) + Number(findTransfers.length)/2 + Number(findWithdrawals.length)}
             </Typography>
             <Typography
               variant="overline"
@@ -137,7 +137,10 @@ export default function Dashboard() {
             </Typography>
           </Box>
         </Paper>
-        <Paper sx={{width: "45%", height: "auto", pb: 2, pt: 4}} elevation={2}> 
+        <Paper sx={{width: "45%", height: "auto", pb: 2, pt: 1}} elevation={2}> 
+          <Typography variant="overline" sx={{textAlign: "center", pl: 1}}>
+              Transaction type
+          </Typography>
           <PieChart 
             colors={["#c62828", 'black', 'lightgrey']}
             series={[
@@ -145,7 +148,7 @@ export default function Dashboard() {
                 data: [
                   {id: 0, label: 'Deposits', value: findDeposits.length},
                   {id: 1, label: 'Withdrawls', value: findWithdrawals.length},
-                  {id: 2, label: 'Transfers', value: findTransfers.length}
+                  {id: 2, label: 'Transfers', value: findTransfers.length/2}
                 ],
                 innerRadius: 30,
                 outerRadius: 100,
@@ -153,7 +156,8 @@ export default function Dashboard() {
               },
             ]}
             width={400}
-            height={200}       
+            height={200}
+            sx={{pt:1}}       
             />
         </Paper>
       </Box>

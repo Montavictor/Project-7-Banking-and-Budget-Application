@@ -102,10 +102,10 @@ export default function Dashboard() {
         </Typography>
         <Typography
           variant="overline"
-          sx={{ textAlign: "center", fontSize: "2rem" , pt: 0, pb: 0}}
+          sx={{ textAlign: "center", fontSize: "1.5rem" , pt: 0, pb: 0}}
         >
           <p>
-            {hours}:{minutes}:{seconds} am
+            {hours}:{minutes}:{seconds}
           </p>
         </Typography>
       </Box>

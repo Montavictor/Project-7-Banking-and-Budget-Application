@@ -100,7 +100,7 @@ function Users() {
       renderCell: (params) => (
         <Stack>
           <IconButton
-            onClick={() => handleDelete(params.row.dateCreated)}
+            onClick={() => handleDelete(params.row)}
             size="small"
             aria-label="delete"
           >

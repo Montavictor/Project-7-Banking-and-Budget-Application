@@ -110,7 +110,7 @@ export default function Dashboard() {
         </Typography>
       </Box>
       <Box sx={{display: "flex", flexDirection: "row-reverse", justifyContent: "space-evenly", alignItems: "center", pb: 5}}>
-        <Paper sx={{ width: "30%", height: "100%"}} elevation={2}>
+        <Paper sx={{ width: "30%", height: "100%"}} elevation={0}>
           <Box sx={{ pt: 1, pr: 2 }}>
             <Typography variant="h3" color="primary" sx={{ textAlign: "right" }}>
               {Number(findDeposits.length) + Number(findTransfers.length)/2 + Number(findWithdrawals.length)}
@@ -137,7 +137,7 @@ export default function Dashboard() {
             </Typography>
           </Box>
         </Paper>
-        <Paper sx={{width: "45%", height: "auto", pb: 2, pt: 1}} elevation={2}> 
+        <Paper sx={{width: "45%", height: "auto", pb: 2, pt: 1}} elevation={0}> 
           <Typography variant="overline" sx={{textAlign: "center", pl: 1}}>
               Transaction type
           </Typography>
@@ -161,7 +161,6 @@ export default function Dashboard() {
             />
         </Paper>
       </Box>
-      
       <GetTime />
     </Paper>
   );
